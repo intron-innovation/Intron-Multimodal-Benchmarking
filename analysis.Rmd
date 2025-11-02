@@ -1,0 +1,461 @@
+---
+title: "ART ANOVA ANALYSIS Notebook"
+output: html_notebook
+---
+
+```{r}
+suppressPackageStartupMessages(library(ARTool))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(emmeans))
+suppressPackageStartupMessages(library(readr))
+suppressPackageStartupMessages(library(stringr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(reshape2))
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+```{r}
+chws_data2 <- read_csv("chews_adj.csv")
+```
+
+
+```{r}
+# Restructure data
+
+# Round numeric columns to 2 decimal places
+chws_data2 <- chws_data2 %>%
+  mutate(across(where(is.numeric), round, 2))
+
+chws_data2 <- chws_data2 %>%
+  filter(model != "distractor")
+# Individual subsets
+eng_txt <- chws_data2 %>%
+  filter(modality == "text",language == "English")
+
+eng_aud <- chws_data2 %>%
+  filter(modality == "audio",language == "English")
+
+yor_txt <- chws_data2 %>%
+  filter(modality == "text",language == "Yoruba")
+
+yor_aud <- chws_data2 %>%
+  filter(modality == "audio",language == "Yoruba")
+
+hausa_txt <- chws_data2 %>%
+  filter(modality == "text",language == "Hausa")
+
+hausa_aud <- chws_data2 %>%
+  filter(modality == "audio",language == "Hausa")
+
+igbo_txt <- chws_data2 %>%
+  filter(modality == "text",language == "Igbo")
+
+igbo_aud <- chws_data2 %>%
+  filter(modality == "audio",language == "Igbo")
+
+pidgin_txt <- chws_data2 %>%
+  filter(modality == "text",language == "Pidgin")
+
+pidgin_aud <- chws_data2 %>%
+  filter(modality == "audio",language == "Pidgin")
+
+# Image subsets
+img_text <- chws_data2 %>%
+  filter(modality == "image", metadata == "image_text")
+
+img <- chws_data2 %>%
+  filter(modality == "image", metadata == "image")
+
+# Non-English groups
+non_eng_txt <- chws_data2 %>%
+  filter(modality == "text",language != "English")
+
+non_eng_aud <- chws_data2 %>%
+  filter(modality == "audio",language != "English")
+
+# Translated text subsets
+trans_yor_txt <- chws_data2 %>%
+  filter(modality == "text", metadata == "translated", trans_lang == "Yoruba")
+
+trans_hausa_txt <- chws_data2 %>%
+  filter(modality == "text", metadata == "translated", trans_lang == "Hausa")
+
+trans_igbo_txt <- chws_data2 %>%
+  filter(modality == "text", metadata == "translated", trans_lang == "Igbo")
+
+trans_pidgin_txt <- chws_data2 %>%
+  filter(modality == "text", metadata == "translated", trans_lang == "Pidgin")
+
+```
+
+```{r}
+  # remove empty scores
+content_metrics <- c(
+    "factuality",
+    "appropriatness",
+    "adequacy",
+    "self_awareness",
+    "clinical reasoning"
+)
+
+communication_metrics <- c(
+    "empathy",
+    "fluency/clarity"
+)
+
+safety_metrics <- c(
+    "hallucination",
+    "bias",
+    "harm"
+)
+
+#all_metrics <- c(content_metrics, communication_metrics, safety_metrics)
+all_metrics <- c("factuality",
+    "appropriatness",
+    "adequacy",
+    "self_awareness",
+    "clinical reasoning", "empathy",
+    "fluency/clarity","hallucination_",
+    "bias_",
+    "harm_", "all_mean")
+
+```
+
+
+
+```{r}
+unique(chws_data2$model)
+```
+
+```{r}
+convert_to_long <- function(df) {
+  df %>%
+    pivot_longer(
+      cols = all_of(all_metrics),
+      names_to = "metric",
+      values_to = "score"
+    ) %>%
+    filter(!is.na(score))
+}
+```
+
+
+
+```{r}
+eng_txt_long <- convert_to_long(eng_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+eng_aud_long <- convert_to_long(eng_aud)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+yor_txt_long <- convert_to_long(yor_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+yor_aud_long <- convert_to_long(yor_aud)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+hausa_txt_long <- convert_to_long(hausa_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+hausa_aud_long <- convert_to_long(hausa_aud)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+igbo_txt_long <- convert_to_long(igbo_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+igbo_aud_long <- convert_to_long(igbo_aud)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+pidgin_txt_long <- convert_to_long(pidgin_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+pidgin_aud_long <- convert_to_long(pidgin_aud)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+img_text_long <- convert_to_long(img_text)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+img_long <- convert_to_long(img)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+non_eng_txt_long <- convert_to_long(non_eng_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+non_eng_aud_long <- convert_to_long(non_eng_aud)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+trans_yor_txt_long <- convert_to_long(trans_yor_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+trans_hausa_txt_long <- convert_to_long(trans_hausa_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+trans_igbo_txt_long <- convert_to_long(trans_igbo_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+trans_pidgin_txt_long <- convert_to_long(trans_pidgin_txt)%>%
+    select(score, metric, user_id, model) %>%
+    drop_na()
+
+```
+
+
+```{r}
+unique(eng_txt_long$model)
+```
+
+```{r}
+df_sub <- eng_txt_long
+```
+
+
+
+```{r}
+
+
+# ===================================
+# Function: Save ART-ANOVA Results
+# ===================================
+save_art_output <- function(data_frame, subfolder, filename_stem, base_dir = ANALYSIS_OUTPUT_DIR) {
+  output_path <- file.path(base_dir, subfolder)
+  
+  # Create directory if it doesn't exist
+  if (!dir.exists(output_path)) {
+    dir.create(output_path, recursive = TRUE, showWarnings = FALSE)
+    message(paste("Created directory:", output_path))
+  }
+  
+  full_file_path <- file.path(output_path, paste0(filename_stem, ".csv"))
+  write.csv(data_frame, full_file_path, row.names = FALSE)
+  message(paste("Successfully wrote ART-ANOVA results to:", full_file_path))
+}
+
+# ===================================
+# Load Data
+# ===================================
+INPUT_CSV <- "data/processed/04_analysis_dataset.csv"
+ANALYSIS_OUTPUT_DIR <- "output/art_anova"
+
+df <- df_sub
+
+# ===================================
+# Define columns based on your dataset
+# ===================================
+dv_col <- "score"
+categorical_cols <- c("metric", "model")
+
+# Convert categorical columns to factors
+for (col_name in categorical_cols) {
+  if (!col_name %in% names(df)) {
+    stop(paste("ERROR: Required column '", col_name, "' not found in dataset."))
+  }
+  df[[col_name]] <- as.factor(df[[col_name]])
+}
+
+if (!dv_col %in% names(df)) {
+  stop(paste("ERROR: Required DV column '", dv_col, "' not found in dataset."))
+}
+
+# Clean data
+original_rows <- nrow(df)
+df_selected <- df[, c(dv_col, categorical_cols, "user_id")]
+df_cleaned <- na.omit(df_selected)
+
+# ===================================
+# Diagnostics
+# ===================================
+message(paste("Number of rows in df_cleaned before art() call:", nrow(df_cleaned)))
+if (nrow(df_cleaned) > 0) {
+  message("First few rows of df_cleaned:")
+  print(head(df_cleaned))
+  message("Summary of df_cleaned:")
+  print(summary(df_cleaned))
+  message("Factor levels:")
+  for (col_name in categorical_cols) {
+    message(paste("  Levels for", col_name, ":", paste(levels(df_cleaned[[col_name]]), collapse = ", ")))
+  }
+} else {
+  stop("df_cleaned is empty — check filtering or missing values.")
+}
+
+# ===================================
+# Run ART ANOVA
+# ===================================
+#message("Running ART ANOVA with: score ~ metric * model * language + (1|user_id)")
+m <- ARTool::art(score ~ metric * model + (1|user_id), data = df_cleaned)
+
+# Get ANOVA results
+res <- stats::anova(m)
+
+
+```
+
+
+ 
+
+```{r}
+library(ARTool)
+library(dplyr)
+library(tidyr)
+library(reshape2)
+
+# --- Fit global ART model ---
+m <- art(score ~ model * metric, data = df)
+anova_results <- anova(m)
+print(anova_results)
+
+# --- Pairwise results per metric ---
+metrics <- unique(df$metric)
+pairwise_results <- list()
+
+for (met in metrics) {
+  cat("\n=== Metric:", met, "===\n")
+  subset_df <- df %>% filter(metric == met)
+  if (length(unique(subset_df$model)) < 2) {
+    cat("⚠️ Skipping metric:", met, "(only one model)\n")
+    next
+  }
+
+  ptab <- tryCatch({
+    m_sub <- art(score ~ model, data = subset_df)
+    res <- suppressMessages(art.con(m_sub, "model", adjust = "holm"))
+    as.data.frame(summary(res))  # <-- convert from emmGrid to data.frame
+  }, error = function(e) NULL)
+
+  if (!is.null(ptab) && nrow(ptab) > 0) {
+    pairwise_results[[met]] <- ptab
+    print(ptab)
+  } else {
+    cat("⚠️ Skipping metric:", met, "(no valid results)\n")
+  }
+}
+  # Defensive check
+  if (!is.null(ptab) && is.data.frame(ptab) && nrow(ptab) > 0) {
+    pairwise_results[[met]] <- ptab
+    print(ptab)
+  } else {
+    cat("⚠️ Skipping metric:", met, "(no valid results)\n")
+  }
+
+
+# --- Build matrices ---
+metric_matrices <- list()
+
+for (met in names(pairwise_results)) {
+  ptab <- pairwise_results[[met]]
+
+  # Check and extract valid columns
+  if (!"contrast" %in% colnames(ptab) || !"p.value" %in% colnames(ptab)) {
+    cat("⚠️ Skipping matrix for metric:", met, "(missing columns)\n")
+    next
+  }
+
+  comps <- strsplit(ptab$contrast, " - ")
+  models <- unique(unlist(comps))
+  mat <- matrix(1, nrow = length(models), ncol = length(models),
+                dimnames = list(models, models))
+
+  for (i in seq_along(comps)) {
+    a <- comps[[i]][1]
+    b <- comps[[i]][2]
+    p <- ptab$p.value[i]
+    mat[a, b] <- mat[b, a] <- round(p, 4)
+  }
+
+  metric_matrices[[met]] <- mat
+}
+
+# --- Show matrices ---
+if (length(metric_matrices) == 0) {
+  cat("\n⚠️ No matrices to display (check metric count or model balance).\n")
+} else {
+  for (met in names(metric_matrices)) {
+    cat("\n\n###", met, "###\n")
+    print(metric_matrices[[met]])
+  }
+}
+
+```
+
+
+```{r}
+metric_matrices <- list()
+
+for (met in names(pairwise_results)) {
+  ptab <- pairwise_results[[met]]
+
+  if (!"contrast" %in% colnames(ptab) || !"p.value" %in% colnames(ptab)) {
+    cat("⚠️ Skipping matrix for metric:", met, "(missing columns)\n")
+    next
+  }
+
+  comps <- strsplit(ptab$contrast, " - ")
+  models <- unique(unlist(comps))
+  mat <- matrix(1, nrow = length(models), ncol = length(models),
+                dimnames = list(models, models))
+
+  for (i in seq_along(comps)) {
+    a <- comps[[i]][1]
+    b <- comps[[i]][2]
+    p <- ptab$p.value[i]
+    mat[a, b] <- mat[b, a] <- round(p, 4)
+  }
+
+  metric_matrices[[met]] <- mat
+}
+
+for (met in names(metric_matrices)) {
+  cat("\n\n###", met, "###\n")
+  print(metric_matrices[[met]])
+}
+
+
+```
+
+
+```{r}
+options(repr.plot.width = 12, repr.plot.height = 12)
+par(pty = "s")
+# Extract your matrix
+mat <- metric_matrices[['all_mean']]
+
+# Mask upper triangle (so values aren’t duplicated)
+mat[upper.tri(mat)] <- NA
+
+# Melt for ggplot
+melted_mat <- melt(mat, na.rm = TRUE)
+
+# Format labels in scientific notation (e.g., 1.23e-04)
+melted_mat$label <- format(melted_mat$value, scientific = TRUE, digits = 2)
+
+# Create a categorical column for significance
+melted_mat$significance <- ifelse(melted_mat$value <= 0.05, "p ≤ 0.05", "p > 0.05")
+
+# Plot
+p <- ggplot(melted_mat, aes(Var1, Var2, fill = significance)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = label), size = 5, color = "black") +
+  scale_fill_manual(
+    values = c("p ≤ 0.05" = "red", "p > 0.05" = "green"),
+    name = ""
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size=20),
+    axis.text.y = element_text(angle = 45, hjust = 1, size=20),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid = element_blank(),
+    legend.position = "left",    # legend visible instead of colorbar
+    legend.title = element_text(size = 12, face = "bold"),  # 🔹 Legend title font
+    legend.text = element_text(size = 12), 
+  ) +
+  labs(title = "Pairwise Comparison of the Mean Responses- English Text")
+print(p)
+# save high-resolution version
+ggsave("pairwise_heatmap_eng1_txt.png", plot = p, width = 12, height = 14, dpi = 300)
+
+```
+
+
+
