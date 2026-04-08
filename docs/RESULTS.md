@@ -1,13 +1,11 @@
 # 📊 Results
 
-## 🗣️ Transcription
+## 🗣️ Transcription (Gabby → Abdul)
 
 ### 📌 Description
-This task evaluates automatic speech recognition (ASR) performance on domain-specific speech.
+This task evaluates ASR performance.
 
 ### 📏 Evaluation Metric: WER / MWER
-- WER: Measures transcription errors.
-- MWER: Average WER across samples.
 
 ### 📈 Results
 
@@ -25,12 +23,12 @@ This task evaluates automatic speech recognition (ASR) performance on domain-spe
 | Gemma-4-E4B | nan | nan |
 
 
-## 🌍 Translation n
+## 🌍 Translation (Busayo → Abdul)
+
 ### 📌 Description
-Evaluates translation quality for low-resource and African languages.
+Translation quality evaluation.
 
 ### 📏 Evaluation Metric: AfriCOMET
-- Measures semantic similarity and fluency.
 
 ### 📈 Results
 
@@ -44,14 +42,12 @@ Evaluates translation quality for low-resource and African languages.
 | Gemma-4-E4B | nan |
 
 
-## ❓ Question Answering 
+## ❓ Question Answering (Aka → Abdul)
 
 ### 📌 Description
-Evaluates correctness of answers generated from speech-derived content.
+QA evaluation.
 
 ### 📏 Evaluation Metric: Accuracy (LLM-as-a-Judge)
-- Uses Claude 4.6 Opus as judge.
-- Validated via correlation with human evaluation (≥ 0.8).
 
 ### 📈 Results
 
