@@ -1,0 +1,7 @@
+  pillow
+  torchvision
+  librosa
+  pandas
+  argparse
+  transformers
+  accelerate

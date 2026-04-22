@@ -1,0 +1,116 @@
+date,audio_id,audio_path,audio_duration,sentence_id,source,doc_id,seq_id,prompt,category,char_len,new_text,feedback_text,quality,project_id,project_name,user_id,first_name,last_name,email,level,status,age_group,gender,accent,discipline,education,institution,clinical_experience,city,country,num_pos_feedback_received,num_neg_feedback_received,num_feedback_received,neg_percent,scenario,scenario_len,prompt_scenario_similarity,question,question_len,answer,answer_len,difficulty,language,audio_recording_path,audio_upload_path,image_upload_path,video_upload_path,pdf_upload_path,scenario_strip,version,Unnamed: 0,scenario_question,scenario_question_strip,audio_path_transcribed,audio_transcribed_duration,src_lang,src_text,target_lang,target_text,transcribed_audio_language,match_seq_id,data_audio_recording_path,data_audio_path,data_image_path,data_video_path,data_audio_path_transcribed,question_id,answer_id,root,file_exists,reference,hypothesis
+2025-03-20 19:23:04.264577,b6861191-566b-465d-8244-56c6e5d630eb,/mnt/multilingual_data/audio/Intron-Multimodal-Benchmarking/data/audio/chews/Pidgin/3efdbf35a223e7ba63eaebd383d761bc_rLnvLv9N.wav,120.0,dbef911b-cd7c-4e33-8d58-bcb8ec2114ea,chew-queries,M48DEBX6IW,293,"Patient Problem: Redness of anus, with or without, pain",Anal,55.0,"{""question"": ""{\""scenario\"": \""\"", \""healthText\"": \""Wetin I go do for woma\"", \""difficulty\"": \""Medium\"", \""language\"": \""Pidgin\"", \""userId\"": \""\"", \""topic\"": \""\""}"", ""answer"": ""There are a number of problems that can cause redness or inflammation of the anus such as anal fissure and hemorrhoid. They are both associated with pain.\r\nDetailed history and examination will help. The examination will help to differentiate which condition it is. For hemorrhoid it might require surgery in a higher center or conservative management will be offered where counsel on eating of fibre rich diet will be required. For anal fissure surgery will also be required but here analgesics can be given to reduce the pain.""}",,,a7006608-b55e-450a-a131-b00df88dbf81,Jos-CHEW-Health-Questions,,Joy,Dogo,joymdogo@gmail.com,LABELER,ACTIVE,41-55,Female,Hausa,Medicine,,Bingham University Teaching Hospital,Consultant,Jos,NG,1.0,0.0,1.0,0.0,"One madam of 35 years, wey be farmer and dey married, come clinic come complain say her anus Dey red and e dey pain am when she shit and even when she no shit.
+She Dey ashamed about it and she no know wetin to do.
+She don use ampiclox but the condition na the same.
+Wetin she fit do?",0,,Wetin I go do for woma,22,"There are a number of problems that can cause redness or inflammation of the anus such as anal fissure and hemorrhoid. They are both associated with pain.
+Detailed history and examination will help. The examination will help to differentiate which condition it is. For hemorrhoid it might require surgery in a higher center or conservative management will be offered where counsel on eating of fibre rich diet will be required. For anal fissure surgery will also be required but here analgesics can be given to reduce the pain.",528.0,Medium,Pidgin,http://speech-app.s3.amazonaws.com/static/audio/uploads/dbef911b-cd7c-4e33-8d58-bcb8ec2114ea/3efdbf35a223e7ba63eaebd383d761bc_rLnvLv9N.wav,,,,,,v3,,"One madam of 35 years, wey be farmer and dey married, come clinic come complain say her anus Dey red and e dey pain am when she shit and even when she no shit.
+She Dey ashamed about it and she no know wetin to do.
+She don use ampiclox but the condition na the same.
+Wetin she fit do?Wetin I go do for woma",Onemadamof35yearsweybefarmeranddeymarriedcomecliniccomecomplainsayheranusDeyredandedeypainamwhensheshitandevenwhenshenoshitSheDeyashamedaboutitandshenoknowwetintodoShedonuseampicloxbuttheconditionnathesameWetinshefitdoWetinIgodoforwoma,http://speech-app.s3.amazonaws.com/static/audio/uploads/dbef911b-cd7c-4e33-8d58-bcb8ec2114ea/3efdbf35a223e7ba63eaebd383d761bc_rLnvLv9N.wav,63.330997732426304,Pidgin,"One madam of 35 years, wey be farmer and dey married, come clinic come complain say her anus Dey red and e dey pain am when she shit and even when she no shit.
+She Dey ashamed about it and she no know wetin to do.
+She don use ampiclox but the condition na the same.
+Wetin she fit do?",English,"A 35 years old married woman who is a farmer, came to clinic with complains of anal pain with or without defecating and the anus appears reddish for about 1 week duration.
+She is ashamed about it, she used ampiclox to no avail.
+What can she do?",Pidgin,b6861191-566b-465d-8244-56c6e5d630eb,audio/dbef911b-cd7c-4e33-8d58-bcb8ec2114ea/3efdbf35a223e7ba63eaebd383d761bc_rLnvLv9N.wav,,,,audio/dbef911b-cd7c-4e33-8d58-bcb8ec2114ea/3efdbf35a223e7ba63eaebd383d761bc_rLnvLv9N.wav,e5a79b7cd6888fc79d3916d9134a6d71b0be77ba8c6f0ac5f5d61094fe041b16,b6861191-566b-465d-8244-56c6e5d630eb,/home/azureuser/gabby_data_mls/Intron-Multimodal-Benchmarking/data/,True,"There are a number of problems that can cause redness or inflammation of the anus such as anal fissure and hemorrhoid. They are both associated with pain.
+Detailed history and examination will help. The examination will help to differentiate which condition it is. For hemorrhoid it might require surgery in a higher center or conservative management will be offered where counsel on eating of fibre rich diet will be required. For anal fissure surgery will also be required but here analgesics can be given to reduce the pain.",What I go do for woman?
+2025-01-31 16:37:56.410755,36d33662-3734-44d4-a6be-eb0ad512fd01,/mnt/multilingual_data/audio/Intron-Multimodal-Benchmarking/data/audio/chews/Pidgin/0b298ef28825218d55c8f55c75b968e7_AzhewU8g.wav,120.0,79d64ec6-ccf2-42f0-8315-39ea13249d4c,chew-queries,IP2RY1ZL9J,707,"Patient Problem: Scrotal swelling with or without pain, a) Urethral discharge, b) Sexually active",STI/HIV (MALE),97.0,"{""question"": ""{\""scenario\"": \""\"", \""healthText\"": \""How we go confirm wetin cause the swelling and discharge?\\r\\nHow e go take manage the symptoms while waiting for the test results?\\r\\n\"", \""difficulty\"": \""Medium\"", \""language\"": \""Pidgin\"", \""userId\"": \""\"", \""topic\"": \""\""}"", ""answer"": ""- this is a case of epididymo-orchitis\r\n- Request for a penile discharge culture to identify the organism involved\r\n- Give IM ceftriaxone 1g stat\r\n- Give tabs doxycycline 100mg twice daily for 2 weeks\r\n- Give tabs flagyl 400mg twice daily for 2 weeks\r\n- Give paracetamol for the pain""}",,,d9afeecb-2159-4b14-b465-1bd8786cda53,Oyo-CHEW-Health-Questions,,Dalamin,Nwagwu,dalaminihechi@gmail.com,LABELER,ACTIVE,26-40,Male,Igbo,Medicine,,Baptist Hospital Eruwa,Licensed Professional,Ibadan Nigeria,NG,113.0,0.0,113.0,0.0,,0,,"How we go confirm wetin cause the swelling and discharge?
+How e go take manage the symptoms while waiting for the test results?
+",130,"- this is a case of epididymo-orchitis
+- Request for a penile discharge culture to identify the organism involved
+- Give IM ceftriaxone 1g stat
+- Give tabs doxycycline 100mg twice daily for 2 weeks
+- Give tabs flagyl 400mg twice daily for 2 weeks
+- Give paracetamol for the pain",283.0,Medium,Pidgin,http://speech-app.s3.amazonaws.com/static/audio/uploads/79d64ec6-ccf2-42f0-8315-39ea13249d4c/0b298ef28825218d55c8f55c75b968e7_AzhewU8g.wav,,,,,,v3,,"How we go confirm wetin cause the swelling and discharge?
+How e go take manage the symptoms while waiting for the test results?
+",HowwegoconfirmwetincausetheswellinganddischargeHowegotakemanagethesymptomswhilewaitingforthetestresults,,,,,,,,,audio/79d64ec6-ccf2-42f0-8315-39ea13249d4c/0b298ef28825218d55c8f55c75b968e7_AzhewU8g.wav,,,,,23d4d8055eb4279b841d3abe0f54ef8cb00c83429bf781f20504805d5607944a,36d33662-3734-44d4-a6be-eb0ad512fd01,/home/azureuser/gabby_data_mls/Intron-Multimodal-Benchmarking/data/,True,"- this is a case of epididymo-orchitis
+- Request for a penile discharge culture to identify the organism involved
+- Give IM ceftriaxone 1g stat
+- Give tabs doxycycline 100mg twice daily for 2 weeks
+- Give tabs flagyl 400mg twice daily for 2 weeks
+- Give paracetamol for the pain","We go take do examination and lab test like urinalysis and swab test to confirm the cause.While waiting, e fit drink plenty water and avoid things wey fit irritate him."
+2025-03-21 05:46:18.213274,74724af9-959d-4af9-ba85-3c04a3dcab2c,/mnt/multilingual_data/audio/Intron-Multimodal-Benchmarking/data/audio/chews/Pidgin/713013dd70cd0140c2439de03ec64b22_GnZz18UL.wav,120.0,906605b6-d5c0-4ab0-852b-7ad5177d41c6,chew-queries,URE7OP1UWR,723,"Patient Problem: Blood in Urine (terminal), may or may not have painful micturition",Genito-urinary,83.0,"{""question"": ""{\""scenario\"": \""One 55-year-old man, Mr. Abubakar, come clinic with the problem say he dey see blood for him urine (hematuria) for the past two days. He talk say the blood dey red and e dey show more towards the end of him urination. He say e no dey feel any heavy pain while e dey urinate, but sometimes e go feel small burning sensation.\\r\\n\\r\\nHe deny say any recent injury or trauma don happen to the area wey e use for urination. He no get history of frequent urinary tract infections (UTIs). He talk say e don smoke for about 20 years, and lately, e dey feel small pain for im lower back sometimes.\\r\\n\\r\\nBincike:\\r\\n\\r\\nThe man look small worried and uneasy.\\r\\n\\r\\nWhen we touch im belly, e soft but e dey pain small for lower side.\\r\\n\\r\\nWe no feel any mass or big swelling for the belly or pelvic area.\\r\\n\\r\\nNo external injury or trauma to the private part.\\r\\n\\r\\nWhen we check the urine, we see say the blood dey plenty (hematuria), but no sign of infection (no white blood cells or bacteria).\\r\\n\\r\\n\\r\\nVital Signs:\\r\\n\\r\\nZafin Jiki: 37.2\\u00b0C\\r\\n\\r\\nMatsi na Jini (BP): 130/85 mmHg\\r\\n\\r\\nBugun Zuciya (Pulse): 85 bpm\\r\\n\\r\\n\"", \""healthText\"": \""Wet\\u00edn be the basic treatment for the problem wey the person don present with?\"", \""difficulty\"": \""Medium\"", \""language\"": \""Pidgin\"", \""userId\"": \""\"", \""topic\"": \""\""}"", ""answer"": ""The above described scenario and findings leaves the suspicion that patient may be having one of the following:\r\n- Urinary bladder stone\r\n- Urinary bladder cancer\r\n- Benign prostatic hypertrophy \r\n- Prostate Cancer\r\nSo therefore patient should first be evaluated to ascertain the diagnosis by:\r\n- Abdominopelvic ultrasound scan \r\n- PSA (prostate specific antigen)\r\n- Urine microscopy culture and sensitivity \r\n- KUB X-ray and CT to detect stones\r\nTreatment is based on the identified problem.\r\nIn the meantime; oral tranexamic acid should be prescribed to reduce the Bleeding and patient should have a PCV done to ensure his blood levels aren't low.""}",,,a7006608-b55e-450a-a131-b00df88dbf81,Jos-CHEW-Health-Questions,,Kings,Frank,kingskemji@gmail.com,LABELER,ACTIVE,26-40,Male,Igbo,Medicine,,Divine Favour Hospital,Licensed Professional,Nigeria,NG,2.0,0.0,2.0,0.0,"One 55-year-old man, Mr. Abubakar, come clinic with the problem say he dey see blood for him urine (hematuria) for the past two days. He talk say the blood dey red and e dey show more towards the end of him urination. He say e no dey feel any heavy pain while e dey urinate, but sometimes e go feel small burning sensation.
+
+He deny say any recent injury or trauma don happen to the area wey e use for urination. He no get history of frequent urinary tract infections (UTIs). He talk say e don smoke for about 20 years, and lately, e dey feel small pain for im lower back sometimes.
+
+Bincike:
+
+The man look small worried and uneasy.
+
+When we touch im belly, e soft but e dey pain small for lower side.
+
+We no feel any mass or big swelling for the belly or pelvic area.
+
+No external injury or trauma to the private part.
+
+When we check the urine, we see say the blood dey plenty (hematuria), but no sign of infection (no white blood cells or bacteria).
+
+
+Vital Signs:
+
+Zafin Jiki: 37.2°C
+
+Matsi na Jini (BP): 130/85 mmHg
+
+Bugun Zuciya (Pulse): 85 bpm
+
+",1076,0.0103537532355478,Wetín be the basic treatment for the problem wey the person don present with?,77,"The above described scenario and findings leaves the suspicion that patient may be having one of the following:
+- Urinary bladder stone
+- Urinary bladder cancer
+- Benign prostatic hypertrophy 
+- Prostate Cancer
+So therefore patient should first be evaluated to ascertain the diagnosis by:
+- Abdominopelvic ultrasound scan 
+- PSA (prostate specific antigen)
+- Urine microscopy culture and sensitivity 
+- KUB X-ray and CT to detect stones
+Treatment is based on the identified problem.
+In the meantime; oral tranexamic acid should be prescribed to reduce the Bleeding and patient should have a PCV done to ensure his blood levels aren't low.",649.0,Medium,Pidgin,http://speech-app.s3.amazonaws.com/static/audio/uploads/906605b6-d5c0-4ab0-852b-7ad5177d41c6/713013dd70cd0140c2439de03ec64b22_GnZz18UL.wav,,,,,One55yearoldmanMrAbubakarcomeclinicwiththeproblemsayhedeyseebloodforhimurinehematuriaforthepasttwodaysHetalksaytheblooddeyredandedeyshowmoretowardstheendofhimurinationHesayenodeyfeelanyheavypainwhileedeyurinatebutsometimesegofeelsmallburningsensationHedenysayanyrecentinjuryortraumadonhappentotheareaweyeuseforurinationHenogethistoryoffrequenturinarytractinfectionsUTIsHetalksayedonsmokeforabout20yearsandlatelyedeyfeelsmallpainforimlowerbacksometimesBincikeThemanlooksmallworriedanduneasyWhenwetouchimbellyesoftbutedeypainsmallforlowersideWenofeelanymassorbigswellingforthebellyorpelvicareaNoexternalinjuryortraumatotheprivatepartWhenwechecktheurineweseesaytheblooddeyplentyhematuriabutnosignofinfectionnowhitebloodcellsorbacteriaVitalSignsZafinJiki372CMatsinaJiniBP13085mmHgBugunZuciyaPulse85bpm,v3,,"One 55-year-old man, Mr. Abubakar, come clinic with the problem say he dey see blood for him urine (hematuria) for the past two days. He talk say the blood dey red and e dey show more towards the end of him urination. He say e no dey feel any heavy pain while e dey urinate, but sometimes e go feel small burning sensation.
+
+He deny say any recent injury or trauma don happen to the area wey e use for urination. He no get history of frequent urinary tract infections (UTIs). He talk say e don smoke for about 20 years, and lately, e dey feel small pain for im lower back sometimes.
+
+Bincike:
+
+The man look small worried and uneasy.
+
+When we touch im belly, e soft but e dey pain small for lower side.
+
+We no feel any mass or big swelling for the belly or pelvic area.
+
+No external injury or trauma to the private part.
+
+When we check the urine, we see say the blood dey plenty (hematuria), but no sign of infection (no white blood cells or bacteria).
+
+
+Vital Signs:
+
+Zafin Jiki: 37.2°C
+
+Matsi na Jini (BP): 130/85 mmHg
+
+Bugun Zuciya (Pulse): 85 bpm
+
+Wetín be the basic treatment for the problem wey the person don present with?",One55yearoldmanMrAbubakarcomeclinicwiththeproblemsayhedeyseebloodforhimurinehematuriaforthepasttwodaysHetalksaytheblooddeyredandedeyshowmoretowardstheendofhimurinationHesayenodeyfeelanyheavypainwhileedeyurinatebutsometimesegofeelsmallburningsensationHedenysayanyrecentinjuryortraumadonhappentotheareaweyeuseforurinationHenogethistoryoffrequenturinarytractinfectionsUTIsHetalksayedonsmokeforabout20yearsandlatelyedeyfeelsmallpainforimlowerbacksometimesBincikeThemanlooksmallworriedanduneasyWhenwetouchimbellyesoftbutedeypainsmallforlowersideWenofeelanymassorbigswellingforthebellyorpelvicareaNoexternalinjuryortraumatotheprivatepartWhenwechecktheurineweseesaytheblooddeyplentyhematuriabutnosignofinfectionnowhitebloodcellsorbacteriaVitalSignsZafinJiki372CMatsinaJiniBP13085mmHgBugunZuciyaPulse85bpmWetínbethebasictreatmentfortheproblemweythepersondonpresentwith,http://speech-app.s3.amazonaws.com/static/audio/uploads/906605b6-d5c0-4ab0-852b-7ad5177d41c6/713013dd70cd0140c2439de03ec64b22_GnZz18UL.wav,192.713991,Pidgin,"one 55 years old man Mr Abubakar come to clinic with a problem say e dey see blood for in urine for the past 2 days now e talk say the urine dey red e dey show more towards the end of him urination e  say he know they feel any heavy pain why in the urinate but sometimes he Dey feel small burning sensation he denies say any recent urine or trauma don happen to the area wey he they use for urination he no get history of frequent urination or urinary tract infection he talks say he don smoke for about 20 years now and later he Dey feel small pain for him lower back sometimes now the man looks so worried and and unhappy when e touch him Belle is soft but he Dey pain small for lower side we no feel any big mass for the belly or pelvic area no external injury or trauma today private parts when will check the urine we see say the blood dey plenty but no sign of infection,no white blood cell or bacteria vital Signs temperature is 37 degrees Celsius is blood pressure is 130/85 mmhg and is pulse is 85 bpm.my question now is how do I manage this is condition",English,"A 55-year-old man, Mr. Abubakar, came to the clinic with a complaint of seeing blood in his urine for the past two days. He said the urine appears red and is more noticeable towards the end of urination. He does not feel severe pain while urinating, but sometimes he experiences a slight burning sensation. He denies having any recent urinary tract infection (UTI) or trauma to the genital area. He has no history of frequent urination or previous UTIs.  
+
+He mentioned that he has been smoking for about 20 years. Recently, he has also been feeling mild pain in his lower back.  
+
+On examination, he looked worried and unhappy. His abdomen was soft but slightly tender in the lower region. No large masses were felt in the abdomen or pelvic area. There were no external injuries or trauma to the genital area.  
+
+Urinalysis showed a significant amount of blood in the urine but no signs of infection, no white blood cells, and no bacteria.  
+
+Vital Signs: 
+- Temperature: 37°C  
+- Blood pressure: 130/85 mmHg  
+- Pulse: 85 bpm  
+
+My question now is: How do I manage this condition?",Pidgin,74724af9-959d-4af9-ba85-3c04a3dcab2c,audio/906605b6-d5c0-4ab0-852b-7ad5177d41c6/713013dd70cd0140c2439de03ec64b22_GnZz18UL.wav,,,,audio/906605b6-d5c0-4ab0-852b-7ad5177d41c6/713013dd70cd0140c2439de03ec64b22_GnZz18UL.wav,c94d81513f7a4e7e4f846bc0b93f72fb4e27ef890baa8e6ba1c712a3e48670b0,74724af9-959d-4af9-ba85-3c04a3dcab2c,/home/azureuser/gabby_data_mls/Intron-Multimodal-Benchmarking/data/,True,"The above described scenario and findings leaves the suspicion that patient may be having one of the following:
+- Urinary bladder stone
+- Urinary bladder cancer
+- Benign prostatic hypertrophy 
+- Prostate Cancer
+So therefore patient should first be evaluated to ascertain the diagnosis by:
+- Abdominopelvic ultrasound scan 
+- PSA (prostate specific antigen)
+- Urine microscopy culture and sensitivity 
+- KUB X-ray and CT to detect stones
+Treatment is based on the identified problem.
+In the meantime; oral tranexamic acid should be prescribed to reduce the Bleeding and patient should have a PCV done to ensure his blood levels aren't low.",The basic treatment for the problem is to find the cause of the blood in the urine.
