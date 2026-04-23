@@ -17,7 +17,22 @@ def infer_gemma4(df = None):
     for lang, group in df.groupby("language"):
         group.to_csv(f"results/transcription/gemma4_{lang}.csv", index=False)
     
-        
+
+def infer_intron_local(df = None):
+    from models.intron_sahara import intron_local_transcribe
+    df["hypothesis"] = ""
+    df["reference"] = df["text"]
+    for lang, group in df.groupby("language"):
+        transcribed_group = intron_local_transcribe(group, lang)
+        transcribed_group.to_csv(f"results/transcription/sahara_{lang}.csv", index=False)
+
+def infer_medasr(df = None):
+    from models.medasr import transcribe_medasr
+    df["hypothesis"] = ""
+    df["reference"] = df["text"]
+    df = df[df["language"] == "english"]
+    transcribed_df = transcribe_medasr(df, "english")
+    transcribed_df.to_csv(f"results/transcription/medasr_english.csv", index=False)
 
 def main():
     # parse command line arguments
@@ -48,8 +63,15 @@ def main():
     # run inference
     if args.model == "gemma4":
         infer_gemma4(sample_df)
+    
+    elif args.model == "sahara":
+        infer_intron_local(sample_df)
+    elif args.model == "medasr":
+        infer_medasr(sample_df)
     else:
         raise ValueError("Model not supported")
+
+
 
 
 

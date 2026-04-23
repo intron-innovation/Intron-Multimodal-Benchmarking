@@ -7,16 +7,21 @@ if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
     # activate conda environment depending on model
     source ~/anaconda3/etc/profile.d/conda.sh
     # available models: gemma, omilinugal, Intron Sahara, Google Gemini, Open AI, Azure Speech
-    echo "Available models: gemma, omilinugal, sahara, google_gemini, open_ai, azure"
+    echo "Available models: gemma, sahara, sahara, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model
-    for model in gemma4 ; do
+    for model in medasr ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
             conda activate gemma
             echo "Running transcription benchmark for model: $model"
             
-        elif [ "$model" == "omilinugal" ]; then
-            conda activate omilinugal
+        elif [ "$model" == "sahara" ]; then
+            conda activate nemo
+            echo "Running transcription benchmark for model: $model"
+
+        elif [ "$model" == "medasr" ]; then
+            conda activate medasr
+            echo "Running transcription benchmark for model: $model"
            
         else
             conda activate hf
