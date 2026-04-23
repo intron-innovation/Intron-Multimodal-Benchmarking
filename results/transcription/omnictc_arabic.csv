@@ -1,0 +1,22 @@
+audio_path,duration,text,language,source,root,file_exists,hypothesis,reference
+/mnt/multilingual_data/audio/Intron-Multimodal-Benchmarking/data/audio/intron/arabic/daf20253ff962e152e0643667fcf2a05_1p9JhoGj.wav,8.956000328063965,"المشكلة موجودة منذ شهور، ولم يتمكن الأطباء من العثور على السبب (الجيوب الأنفية سليمة، إلخ). ما هذا، وماذا يمكنني أن أفعل لإيقافه؟
+
+",arabic,intron-MT,/home/azureuser/gabby_data_mls/Intron-Multimodal-Benchmarking/data/,True,المشكلة موجودة منز الشهور ولم يتمكن الإطباء من العصور على السبب الجيوب الأنفية سليمة ما هازع وما ذا يمكنن الأفعل لإيقافه,"المشكلة موجودة منذ شهور، ولم يتمكن الأطباء من العثور على السبب (الجيوب الأنفية سليمة، إلخ). ما هذا، وماذا يمكنني أن أفعل لإيقافه؟
+
+"
+/mnt/multilingual_data/audio/Intron-Multimodal-Benchmarking/data/audio/intron/arabic/7866d73ef44dd06e659ea25b27c4f24a_buwaATkb.wav,10.682000160217283,الدكتور وصف دوا نور-ميتروجيل 3 مرات في اليوم لمدة يومين. أنا عايز أعرف هل هو آمن لطفل عنده 6 شهور وعنده إسهال شديد؟,arabic,intron-MT,/home/azureuser/gabby_data_mls/Intron-Multimodal-Benchmarking/data/,True,الدكتور وصف دوا نور متروجيل ثلت مرات في اليوم لمدة يومين انا عيزعرف هل هو اعمل لطفق عنده ست اشهور وعنده اسهال شديد,الدكتور وصف دوا نور-ميتروجيل 3 مرات في اليوم لمدة يومين. أنا عايز أعرف هل هو آمن لطفل عنده 6 شهور وعنده إسهال شديد؟
+/mnt/multilingual_data/audio/Intron-Multimodal-Benchmarking/data/audio/intron/arabic/8b61ac99e875fd3c11b0105a9bfe1b0d_5sU8b67I.wav,12.649999618530272,"ممكن تحتاج تاخد أسيكلوفير بعد استشارة الطبيب.بعد كده، تقدر تاخد قرص باراسيتامول (أسيتامينوفين) لتخفيف الألم. حافظ على نظافة المنطقة كويس. أتمنى أكون جاوبت على استفسارك.
+
+
+
+
+
+
+",arabic,intron-MT,/home/azureuser/gabby_data_mls/Intron-Multimodal-Benchmarking/data/,True,ممكن تحتاج تاخد أسكلوفير بعد استشارد الطبيب بعد كده تقدر تاخد أرس بارستيمول است مونوفين تخفيف الالم حافظ ع دفط المنطقة كويس تمنى أكون جعبت على استفصار,"ممكن تحتاج تاخد أسيكلوفير بعد استشارة الطبيب.بعد كده، تقدر تاخد قرص باراسيتامول (أسيتامينوفين) لتخفيف الألم. حافظ على نظافة المنطقة كويس. أتمنى أكون جاوبت على استفسارك.
+
+
+
+
+
+
+"

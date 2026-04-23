@@ -6,10 +6,10 @@ if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
     echo "Running transcription benchmark..."
     # activate conda environment depending on model
     source ~/anaconda3/etc/profile.d/conda.sh
-    # available models: gemma, omilinugal, Intron Sahara, Google Gemini, Open AI, Azure Speech
-    echo "Available models: gemma, sahara, sahara, google_gemini, open_ai, azure"
+    # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
+    echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model
-    for model in medasr ; do
+    for model in omnilingual_llm ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
             conda activate gemma
@@ -21,6 +21,13 @@ if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
 
         elif [ "$model" == "medasr" ]; then
             conda activate medasr
+            echo "Running transcription benchmark for model: $model"
+
+        elif [ "$model" == "omnilingual_ctc" ]; then
+            conda activate omnilingual
+            echo "Running transcription benchmark for model: $model"
+        elif [ "$model" == "omnilingual_llm" ]; then
+            conda activate omnilingual
             echo "Running transcription benchmark for model: $model"
            
         else
@@ -37,8 +44,8 @@ if [ "$task" == "translation" ] || [ "$task" == "all" ]; then
     echo "Running translation benchmark..."
     # activate conda environment depending on model
     source ~/anaconda3/etc/profile.d/conda.sh
-    # available models: gemma, omilinugal, Intron Sahara, Google Gemini, Open AI, Azure Speech
-    echo "Available models: gemma, omilinugal, sahara, google_gemini, open_ai, azure"
+    # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
+    echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model
     for model in gemma4 ; do
         echo "Running benchmark for model: $model"
@@ -46,8 +53,8 @@ if [ "$task" == "translation" ] || [ "$task" == "all" ]; then
             conda activate gemma
             echo "Running translation benchmark for model: $model"
             
-        elif [ "$model" == "omilinugal" ]; then
-            conda activate omilinugal
+        elif [ "$model" == "omnilingual_ctc" ]; then
+            conda activate omnilingual_ctc
            
         else
             conda activate hf
@@ -63,8 +70,8 @@ if [ "$task" == "qa" ] || [ "$task" == "all" ]; then
     echo "Running qa benchmark..."
     # activate conda environment depending on model
     source ~/anaconda3/etc/profile.d/conda.sh
-    # available models: gemma, omilinugal, Intron Sahara, Google Gemini, Open AI, Azure Speech
-    echo "Available models: gemma, omilinugal, sahara, google_gemini, open_ai, azure"
+    # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
+    echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model
     for model in gemma4 ; do
         echo "Running benchmark for model: $model"
@@ -72,8 +79,8 @@ if [ "$task" == "qa" ] || [ "$task" == "all" ]; then
             conda activate gemma
             echo "Running qa benchmark for model: $model"
             
-        elif [ "$model" == "omilinugal" ]; then
-            conda activate omilinugal
+        elif [ "$model" == "omnilingual_ctc" ]; then
+            conda activate omnilingual_ctc  
            
         else
             conda activate hf

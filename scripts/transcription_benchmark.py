@@ -3,6 +3,7 @@ import json
 import os
 import argparse
 
+
 def infer_gemma4(df = None):
     # import gemma4 transcription function which is in model/gemma4.py
     from models.gemma4 import transcribe_gemma
@@ -34,6 +35,21 @@ def infer_medasr(df = None):
     transcribed_df = transcribe_medasr(df, "english")
     transcribed_df.to_csv(f"results/transcription/medasr_english.csv", index=False)
 
+def infer_omni_ctc(df = None):
+    from models.meta_omniasr import omni_transcribe_ctc
+    df["hypothesis"] = ""
+    df["reference"] = df["text"]
+    for lang, group in df.groupby("language"):
+        transcribed_group = omni_transcribe_ctc(group, lang)
+        transcribed_group.to_csv(f"results/transcription/omnictc_{lang}.csv", index=False)
+
+def infer_omni_llm(df = None):
+    from  models.meta_omniasr import omni_transcribe_llm
+    df["hypothesis"] = ""
+    for lang, group in df.groupby("language"):
+        transcribed_group = omni_transcribe_llm(group, lang)
+        transcribed_group.to_csv(f"results/transcription/omnillm_{lang}.csv", index=False)
+
 def main():
     # parse command line arguments
     
@@ -63,11 +79,14 @@ def main():
     # run inference
     if args.model == "gemma4":
         infer_gemma4(sample_df)
-    
     elif args.model == "sahara":
         infer_intron_local(sample_df)
     elif args.model == "medasr":
         infer_medasr(sample_df)
+    elif args.model == "omnilingual_ctc":
+        infer_omni_ctc(sample_df)
+    elif args.model == "omnilingual_llm":
+        infer_omni_llm(sample_df)
     else:
         raise ValueError("Model not supported")
 

@@ -1,20 +1,23 @@
 # med asr setup 
 # conda create -n medasr python=3.10 -y
-source ~/anaconda3/etc/profile.d/conda.sh
-conda activate medasr
+# source ~/anaconda3/etc/profile.d/conda.sh
+# conda activate medasr
 # pip install pandas
 # pip install uv
 # # install dependencies
 # uv pip install git+https://github.com/huggingface/transformers.git@65dc261512cbdb1ee72b88ae5b222f2605aad8e5
-pip install -r requirements/requirements_medasr.txt
+# pip install -r requirements/requirements_medasr.txt
+
 # # omilinugal asr setup
-# conda create -n omilinugal python=3.10 -y
-# source ~/miniconda3/etc/profile.d/conda.sh
-# conda activate omilinugal
+conda create -n omnilingual python=3.10 -y
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate omnilingual
 
-# pip install uv
+pip install uv
 
-# pip install omnilingual-asr
+pip install omnilingual-asr
+conda install -c conda-forge libsndfile==1.0.31
+pip install torchaudio==2.8.0
 
 # gemma model
 # conda create -n gemma python=3.10 -y
