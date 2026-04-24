@@ -44,11 +44,10 @@ def main():
     # filter out files that do not exist
     df = df[df["file_exists"]]
 
-    sample_df = df.groupby("language").apply(lambda x: x.sample(3, random_state=42)).reset_index(drop=True)
     # run inference
 
     if args.model == "gemma4":
-        infer_gemma4(sample_df)
+        infer_gemma4(df)
     else:
         raise ValueError("Model not supported")
 

@@ -5,6 +5,7 @@ import argparse
 
 
 
+
 def infer_gemma4(df = None):
     # import gemma4 transcription function which is in model/gemma4.py
     from models.gemma4 import transcribe_gemma
@@ -51,6 +52,25 @@ def infer_omni(df = None , model_name = "omniASR_LLM_7B_v2"):
         else:
             transcribed_group.to_csv(f"results/transcription/omnillm_{lang}.csv", index=False)
 
+def infer_qwen3(df = None , model_name = "Qwen/Qwen3-Omni-30B-A3B-Instruct"):
+    from  models.qwen3_omni import transcribe_qwen3omni
+    from models.qwen3_omni import load_model
+    
+    df["hypothesis"] = ""
+    
+    model, processor = load_model(model_name)
+    # include only english and french
+    df['language'] = df['language'].str.lower()
+    df = df[df["language"].isin(["english", "french"])]
+    for lang, group in df.groupby("language"):
+        print(f"Processing language: {lang}")
+        for index, row in group.iterrows():
+            print(f"Processing {index+1}/{len(group)}: {row['audio_path']}")
+            text = transcribe_qwen3omni(row['audio_path'], model, processor)
+            group.at[index, "hypothesis"] = text
+        group.to_csv(f"results/transcription/qwen3-omni-instruct_{lang}.csv", index=False)
+        
+
 def main():
     # parse command line arguments
     
@@ -87,6 +107,10 @@ def main():
         infer_omni(sample_df, model_name="omniASR_CTC_7B_v2")
     elif args.model == "omnilingual_llm":
         infer_omni(sample_df, model_name="omniASR_LLM_7B_v2")
+    elif args.model == "qwen3_omni":
+        infer_qwen3(sample_df, model_name="Qwen/Qwen3-Omni-30B-A3B-Instruct")
+    elif args.model == "qwen3_omni_thinking":
+        infer_qwen3(sample_df, model_name="Qwen/Qwen3-Omni-30B-A3B-Thinking")
     else:
         raise ValueError("Model not supported")
 
