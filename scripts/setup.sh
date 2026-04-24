@@ -10,7 +10,7 @@
 
 # # omilinugal asr setup
 # conda create -n omnilingual python=3.10 -y
-# source ~/miniconda3/etc/profile.d/conda.sh
+# source ~/anaconda3/etc/profile.d/conda.sh
 # conda activate omnilingual
 # pip install omnilingual-asr
 # conda install -c conda-forge libsndfile==1.0.31 -y
@@ -18,13 +18,13 @@
 
 # gemma model
 # conda create -n gemma python=3.10 -y
-# source ~/miniconda3/etc/profile.d/conda.sh
+# source ~/anaconda3/etc/profile.d/conda.sh
 # conda activate gemma
 # pip install -r requirements/requirements_gemma4.txt
 
 # #  hugging face models
 # conda create -n hf python=3.10 -y
-# source ~/miniconda3/etc/profile.d/conda.sh
+# source ~/anaconda3/etc/profile.d/conda.sh
 # conda activate hf
 # pip install -U transformers torch accelerate
 
@@ -38,7 +38,7 @@
 
 # qwen 3 Omni model 
 # conda create -n qwen3 python=3.10 -y
-# source ~/miniconda3/etc/profile.d/conda.sh
+# source ~/anaconda3/etc/profile.d/conda.sh
 # conda activate qwen3
 # pip install git+https://github.com/huggingface/transformers
 # pip install accelerate
@@ -57,4 +57,11 @@
 # pip install whisper_normalizer
 
 
+conda create -n proprietary_apis python=3.10 -y
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate proprietary_apis
+pip install -U google-genai
+pip install pandas
+pip install dotenv
+pip install openai
 

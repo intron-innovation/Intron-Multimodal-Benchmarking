@@ -5,11 +5,11 @@ task=$1
 if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
     echo "Running transcription benchmark..."
     # activate conda environment depending on model
-    source ~/miniconda3/etc/profile.d/conda.sh
+    source ~/anaconda3/etc/profile.d/conda.sh
     # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
     echo "Available models: medasr, gemma4, omnilingual_ctc, omnilingual_llm, qwen3_omni, qwen3_omni_thinking, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model
-    for model in qwen3_omni ; do
+    for model in qwen3_transcribe ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
             conda activate gemma
@@ -34,7 +34,19 @@ if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
             conda activate qwen3
             echo "Running transcription benchmark for model: $model"
         elif [ "$model" == "qwen3_omni_thinking" ]; then
-            conda activate quen3
+            conda activate qwen3
+            echo "Running transcription benchmark for model: $model"
+        elif [ "$model" == "gemini_3_flash" ]; then
+            conda activate proprietary_apis
+            echo "Running transcription benchmark for model: $model"
+        elif [ "$model" == "gemini_3_flash" ]; then
+            conda activate proprietary_apis
+            echo "Running transcription benchmark for model: $model"
+        elif [ "$model" == "gpt4o_transcribe" ]; then
+            conda activate proprietary_apis
+            echo "Running transcription benchmark for model: $model"
+        elif [ "$model" == "qwen3_transcribe" ]; then
+            conda activate proprietary_apis
             echo "Running transcription benchmark for model: $model"
         else
             conda activate hf
@@ -49,11 +61,11 @@ fi
 if [ "$task" == "translation" ] || [ "$task" == "all" ]; then
     echo "Running translation benchmark..."
     # activate conda environment depending on model
-    source ~/miniconda3/etc/profile.d/conda.sh
+    source ~/anaconda3/etc/profile.d/conda.sh
     # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
-    echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
+    echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure, qwen3_translate "
     # loop through models and run benchmark for each model
-    for model in gemma4 ; do
+    for model in  qwen3_translate ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
             conda activate gemma
@@ -61,7 +73,15 @@ if [ "$task" == "translation" ] || [ "$task" == "all" ]; then
             
         elif [ "$model" == "omnilingual_ctc" ]; then
             conda activate omnilingual_ctc
-           
+        elif [ "$model" == "gemini_3_flash" ]; then
+            conda activate proprietary_apis
+            echo "Running translation benchmark for model: $model"
+        elif [ "$model" == "gpt4o_audio_translate" ]; then
+            conda activate proprietary_apis
+            echo "Running translation benchmark for model: $model"
+        elif [ "$model" == "qwen3_translate" ]; then
+            conda activate proprietary_apis
+            echo "Running translation benchmark for model: $model"
         else
             conda activate hf
           
@@ -87,7 +107,6 @@ if [ "$task" == "qa" ] || [ "$task" == "all" ]; then
             
         elif [ "$model" == "omnilingual_ctc" ]; then
             conda activate omnilingual_ctc  
-           
         else
             conda activate hf
           

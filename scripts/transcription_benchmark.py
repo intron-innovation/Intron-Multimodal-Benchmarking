@@ -6,6 +6,7 @@ import argparse
 
 
 
+
 def infer_gemma4(df = None):
     # import gemma4 transcription function which is in model/gemma4.py
     from models.gemma4 import transcribe_gemma
@@ -20,6 +21,27 @@ def infer_gemma4(df = None):
     for lang, group in df.groupby("language"):
         group.to_csv(f"results/transcription/gemma4_{lang}.csv", index=False)
     
+def infer_gemini(df = None, model_name = "gemini-3-flash-preview"):
+    # import gemma4 transcription function which is in model/gemma4.py
+    from models.proprietary_models import gemini_transcribe
+    results = []
+    df['reference'] = df['text']
+    df['hypothesis'] = ""
+    df = pd.read_csv("/mnt/multilingual_data/audio/Intron-Multimodal-Benchmarking/results/transcription/gemini_transcript_rerun.csv")
+    # #filter_out rows where hypothesis is not ERROR
+    # df1 = df[df['hypothesis'] != "ERROR"]
+    # df2 = df[df['hypothesis'] == "ERROR"]
+    # for index, row in df2.iterrows():
+    #     print(f"Processing {index+1}/{len(df2)}: {row['audio_path']}")
+    #     results.append(gemini_transcribe(row['audio_path'], row['language'], model_name))
+    # df2["hypothesis"] = results
+    # df = pd.concat([df1, df2])
+    for index, row in df.iterrows():
+        print(f"Processing {index+1}/{len(df)}: {row['audio_path']}")
+        results.append(gemini_transcribe(row['audio_path'], row['language'], model_name))
+    df["hypothesis"] = results
+    for lang, group in df.groupby("language"):
+        group.to_csv(f"results/transcription/{model_name}_{lang}.csv", index=False)
 
 def infer_intron_local(df = None):
     from models.intron_sahara import intron_local_transcribe
@@ -37,12 +59,38 @@ def infer_medasr(df = None):
     transcribed_df = transcribe_medasr(df, "english")
     transcribed_df.to_csv(f"results/transcription/medasr_english.csv", index=False)
 
+def infer_gpt4o(df = None):
+    from models.proprietary_models import gpt4o_transcribe
+    df["hypothesis"] = ""
+    df["reference"] = df["text"]
+    for lang, group in df.groupby("language"):
+        print(f"Processing language: {lang}")
+        for index, row in group.iterrows():
+            print(f"Processing {index+1}/{len(group)}: {row['audio_path']}")
+            text = gpt4o_transcribe(row['audio_path'])
+            group.at[index, "hypothesis"] = text
+        group.to_csv(f"results/transcription/gpt4o_{lang}.csv", index=False)
+
+def infer_qwen3api(df = None ):
+    from models.proprietary_models import qwen3_transcribe
+   
+    df["hypothesis"] = ""
+    df['reference'] = df['text']
+    
+    for lang, group in df.groupby("language"):
+        print(f"Processing language: {lang}")
+        for index, row in group.iterrows():
+            print(f"Processing {index+1}/{len(group)}: {row['audio_path']}")
+            text = qwen3_transcribe(row['audio_path'], source_language=lang)
+            group.at[index, "hypothesis"] = text
+        group.to_csv(f"results/transcription/qwen3_{lang}.csv", index=False)
 
 
 def infer_omni(df = None , model_name = "omniASR_LLM_7B_v2"):
     from  models.meta_omniasr import omni_transcribe
     from models.meta_omniasr import load_omni_model_pipeline
     df["hypothesis"] = ""
+    df['reference'] = df['text']
     pipeline = load_omni_model_pipeline(model_name)
     for lang, group in df.groupby("language"):
         print(f"Processing language: {lang}")
@@ -111,6 +159,12 @@ def main():
         infer_qwen3(sample_df, model_name="Qwen/Qwen3-Omni-30B-A3B-Instruct")
     elif args.model == "qwen3_omni_thinking":
         infer_qwen3(sample_df, model_name="Qwen/Qwen3-Omni-30B-A3B-Thinking")
+    elif args.model == "gemini_3_flash":
+        infer_gemini(sample_df, model_name = "gemini-3-flash-preview")
+    elif args.model == "gpt4o_transcribe":
+        infer_gpt4o(sample_df)
+    elif args.model == "qwen3_transcribe":
+        infer_qwen3api(sample_df)
     else:
         raise ValueError("Model not supported")
 

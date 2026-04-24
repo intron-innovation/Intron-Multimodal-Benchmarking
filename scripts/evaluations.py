@@ -428,7 +428,11 @@ def transcription_evals():
                 
                 print(f"Evaluating {model} on {language}...")
                 
-                # Use your existing post_process_preds logic
+                # check if reference exist else set refernce to text column
+                if "reference" not in df.columns:
+                    df["reference"] = df["text"]
+                
+
                 is_english = (language.lower() == "english")
                 metrics = post_process_preds(
                     df, 
@@ -525,7 +529,8 @@ def translation_evals():
                 df = pd.read_csv(os.path.join("results/translation", filename))
                 
                 print(f"Evaluating {model} on {language}...")
-                
+                # fill missing hypothesis with empty string to avoid metric errors
+                df["hypothesis"] = df["hypothesis"].fillna("")
                 refs = df["reference"].apply(lambda x: x[0] if isinstance(x, (list, np.ndarray)) else x).tolist()
                 preds = df["hypothesis"].tolist()
 

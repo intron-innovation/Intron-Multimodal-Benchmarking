@@ -4,4 +4,7 @@ data/*/*/*.wav
 data/audio/intron/*/*/*.wav
 data/audio/chews/*/*.wav
 notebooks/*.ipynb
+notebooks/*.txt
+notebooks/*.csv
 temp_chunks/*.wav
+scripts/models/__pycache__/*
