@@ -5,9 +5,9 @@ task=$1
 if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
     echo "Running transcription benchmark..."
     # activate conda environment depending on model
-    source ~/anaconda3/etc/profile.d/conda.sh
+    source ~/miniconda3/etc/profile.d/conda.sh
     # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
-    echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
+    echo "Available models: medasr, gemma4, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model
     for model in omnilingual_llm ; do
         echo "Running benchmark for model: $model"
@@ -43,7 +43,7 @@ fi
 if [ "$task" == "translation" ] || [ "$task" == "all" ]; then
     echo "Running translation benchmark..."
     # activate conda environment depending on model
-    source ~/anaconda3/etc/profile.d/conda.sh
+    source ~/miniconda3/etc/profile.d/conda.sh
     # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
     echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model

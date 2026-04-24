@@ -4,3 +4,4 @@ data/*/*/*.wav
 data/audio/intron/*/*/*.wav
 data/audio/chews/*/*.wav
 notebooks/*.ipynb
+temp_chunks/*.wav

@@ -83,9 +83,8 @@ def transcribe_in_chunks(audio_path, out_dir, asr_model, chunk_len=30.0, overlap
 
 
 
-def omni_transcribe_ctc(df, language):
+def omni_transcribe(df, language, pipeline):
     language = lang_map[language]
-    pipeline = ASRInferencePipeline(model_card="omniASR_CTC_300M_v2", device="cuda")
     test_df_1 = df[df['duration']<40]
     test_df_2 = df[df['duration']>=40]
     
@@ -96,15 +95,15 @@ def omni_transcribe_ctc(df, language):
 
     return pd.concat([test_df_1, test_df_2], ignore_index=True)
 
-def omni_transcribe_llm(df, language):
-    language = lang_map[language]
-    pipeline = ASRInferencePipeline(model_card="omniASR_LLM_300M_v2", device="cuda")
-    test_df_1 = df[df['duration']<40]
-    test_df_2 = df[df['duration']>=40]
-    
-    
-    transcriptions = pipeline.transcribe(test_df_1["audio_path"].tolist(), lang=[language for _ in range(len(test_df_1))], batch_size=8)
-    test_df_1['hypothesis'] = transcriptions
-    test_df_2['hypothesis'] = test_df_2['audio_path'].apply(lambda x: transcribe_in_chunks(x, out_dir="/tmp/chunks", asr_model=pipeline, chunk_len=39.0, overlap=0.2, sr=16000, model_type="omni" , language=language))
 
-    return pd.concat([test_df_1, test_df_2], ignore_index=True)
+
+def load_omni_model_pipeline(model_name):
+    if model_name == "omniASR_CTC_7B_v2":
+        pipeline = ASRInferencePipeline(model_card="omniASR_CTC_7B_v2", device="cuda")
+    elif model_name == "omniASR_LLM_7B_v2":
+        pipeline = ASRInferencePipeline(model_card="omniASR_LLM_7B_v2", device="cuda")
+    elif model_name == "omniASR_LLM_300M_v2":
+        pipeline = ASRInferencePipeline(model_card="omniASR_LLM_300M_v2", device="cuda")
+    else:
+        raise ValueError(f"Unsupported model name: {model_name}")
+    return pipeline

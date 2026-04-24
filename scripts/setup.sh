@@ -9,21 +9,18 @@
 # pip install -r requirements/requirements_medasr.txt
 
 # # omilinugal asr setup
-conda create -n omnilingual python=3.10 -y
-source ~/anaconda3/etc/profile.d/conda.sh
-conda activate omnilingual
-
-pip install uv
-
-pip install omnilingual-asr
-conda install -c conda-forge libsndfile==1.0.31
-pip install torchaudio==2.8.0
+# conda create -n omnilingual python=3.10 -y
+# source ~/miniconda3/etc/profile.d/conda.sh
+# conda activate omnilingual
+# pip install omnilingual-asr
+# conda install -c conda-forge libsndfile==1.0.31 -y
+# pip install torchaudio==2.8.0
 
 # gemma model
 # conda create -n gemma python=3.10 -y
-# source ~/anaconda3/etc/profile.d/conda.sh
+# source ~/miniconda3/etc/profile.d/conda.sh
 # conda activate gemma
-# pip install -r ../requirements/requirements_gemma4.txt
+# pip install -r requirements/requirements_gemma4.txt
 
 # #  hugging face models
 # conda create -n hf python=3.10 -y
@@ -37,6 +34,17 @@ pip install torchaudio==2.8.0
 # conda activate nemo
 # pip install -U nemo_toolkit['asr']
 # pip install torchaudio
+
+
+# qwen 3 Omni model 
+# conda create -n qwen3 python=3.10 -y
+# source ~/miniconda3/etc/profile.d/conda.sh
+# conda activate qwen3
+# pip install git+https://github.com/huggingface/transformers
+# pip install accelerate
+# pip install qwen-omni-utils -U
+# pip install flash-attn --no-build-isolation
+# conda install -c conda-forge libsndfile==1.0.31 -y
 
 # conda create -n evaluation python=3.10 -y
 # source ~/anaconda3/etc/profile.d/conda.sh

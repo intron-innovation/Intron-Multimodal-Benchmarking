@@ -4,6 +4,7 @@ import os
 import argparse
 
 
+
 def infer_gemma4(df = None):
     # import gemma4 transcription function which is in model/gemma4.py
     from models.gemma4 import transcribe_gemma
@@ -35,20 +36,20 @@ def infer_medasr(df = None):
     transcribed_df = transcribe_medasr(df, "english")
     transcribed_df.to_csv(f"results/transcription/medasr_english.csv", index=False)
 
-def infer_omni_ctc(df = None):
-    from models.meta_omniasr import omni_transcribe_ctc
-    df["hypothesis"] = ""
-    df["reference"] = df["text"]
-    for lang, group in df.groupby("language"):
-        transcribed_group = omni_transcribe_ctc(group, lang)
-        transcribed_group.to_csv(f"results/transcription/omnictc_{lang}.csv", index=False)
 
-def infer_omni_llm(df = None):
-    from  models.meta_omniasr import omni_transcribe_llm
+
+def infer_omni(df = None , model_name = "omniASR_LLM_7B_v2"):
+    from  models.meta_omniasr import omni_transcribe
+    from models.meta_omniasr import load_omni_model_pipeline
     df["hypothesis"] = ""
+    pipeline = load_omni_model_pipeline(model_name)
     for lang, group in df.groupby("language"):
-        transcribed_group = omni_transcribe_llm(group, lang)
-        transcribed_group.to_csv(f"results/transcription/omnillm_{lang}.csv", index=False)
+        print(f"Processing language: {lang}")
+        transcribed_group = omni_transcribe(group, lang, pipeline)
+        if model_name == "omniASR_CTC_7B_v2":
+            transcribed_group.to_csv(f"results/transcription/omniCTC_{lang}.csv", index=False)
+        else:
+            transcribed_group.to_csv(f"results/transcription/omnillm_{lang}.csv", index=False)
 
 def main():
     # parse command line arguments
@@ -58,7 +59,7 @@ def main():
     args = parser.parse_args()
     print(args.model)
     df = pd.read_csv("data/Transcription/meta_data.csv")
-    # sample 5 for each langauge
+  
 
     
 
@@ -70,12 +71,11 @@ def main():
     df["audio_path"] = df["audio_path"].apply(lambda x: os.path.join(cwd,'data', x))
     
     df["file_exists"] = df["audio_path"].apply(lambda x: os.path.exists(x))
-    # sample 5 for each langauge
-
+   
     df = df[df["file_exists"]]
     
-    sample_df = df.groupby("language").apply(lambda x: x.sample(3, random_state=42)).reset_index(drop=True)
-    
+    # sample_df = df.groupby("language").apply(lambda x: x.sample(3, random_state=42)).reset_index(drop=True)
+    sample_df = df 
     # run inference
     if args.model == "gemma4":
         infer_gemma4(sample_df)
@@ -84,9 +84,9 @@ def main():
     elif args.model == "medasr":
         infer_medasr(sample_df)
     elif args.model == "omnilingual_ctc":
-        infer_omni_ctc(sample_df)
+        infer_omni(sample_df, model_name="omniASR_CTC_7B_v2")
     elif args.model == "omnilingual_llm":
-        infer_omni_llm(sample_df)
+        infer_omni(sample_df, model_name="omniASR_LLM_7B_v2")
     else:
         raise ValueError("Model not supported")
 
