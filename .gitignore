@@ -2,6 +2,7 @@
 data/audio/intron/*/*.wav
 data/*/*/*.wav
 data/audio/intron/*/*/*.wav
+data/audio/intron/*/*/*.wav
 data/audio/chews/*/*.wav
 notebooks/*.ipynb
 notebooks/*.txt

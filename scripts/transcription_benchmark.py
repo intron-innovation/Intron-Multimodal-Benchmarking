@@ -1,3 +1,5 @@
+from platform import processor
+
 import pandas as pd
 import json 
 import os
@@ -100,6 +102,19 @@ def infer_omni(df = None , model_name = "omniASR_LLM_7B_v2"):
         else:
             transcribed_group.to_csv(f"results/transcription/omnillm_{lang}.csv", index=False)
 
+def infer_google_med_stt(df = None):
+    from models.proprietary_models import transcribe_google_med_stt
+    results = []
+    df['reference'] = df['text']
+    df['hypothesis'] = ""
+    df = df[df["language"].isin(["english"])]
+    for index, row in df.iterrows():
+        print(f"Processing {index+1}/{len(df)}: {row['audio_path']}")
+        results.append(transcribe_google_med_stt(row['audio_path']))
+    df["hypothesis"] = results
+    for lang, group in df.groupby("language"):
+        group.to_csv(f"results/translation/google-med-stt{lang}.csv", index=False)
+
 def infer_qwen3(df = None , model_name = "Qwen/Qwen3-Omni-30B-A3B-Instruct"):
     from  models.qwen3_omni import transcribe_qwen3omni
     from models.qwen3_omni import load_model
@@ -117,7 +132,21 @@ def infer_qwen3(df = None , model_name = "Qwen/Qwen3-Omni-30B-A3B-Instruct"):
             text = transcribe_qwen3omni(row['audio_path'], model, processor)
             group.at[index, "hypothesis"] = text
         group.to_csv(f"results/transcription/qwen3-omni-instruct_{lang}.csv", index=False)
-        
+
+def infer_azure(df = None ,):
+    from models.proprietary_models import transcribe_audio_azure
+    
+    df["hypothesis"] = ""
+    # include only english and french
+    df['language'] = df['language'].str.lower()
+   
+    for lang, group in df.groupby("language"):
+        print(f"Processing language: {lang}")
+        for index, row in group.iterrows():
+            print(f"Processing {index+1}/{len(group)}: {row['audio_path']}")
+            text = transcribe_audio_azure(row['audio_path'], lang)
+            group.at[index, "hypothesis"] = text
+        group.to_csv(f"results/transcription/azure_{lang}.csv", index=False)
 
 def main():
     # parse command line arguments
@@ -165,6 +194,10 @@ def main():
         infer_gpt4o(sample_df)
     elif args.model == "qwen3_transcribe":
         infer_qwen3api(sample_df)
+    elif args.model == "azure_transcribe":
+        infer_azure(sample_df)
+    elif args.model == "google_med_stt":
+        infer_google_med_stt(sample_df)
     else:
         raise ValueError("Model not supported")
 

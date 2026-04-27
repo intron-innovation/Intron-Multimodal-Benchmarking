@@ -3,6 +3,9 @@ import json
 import os
 import argparse
 
+from scripts.models.proprietary_models import translate_audio_azure
+
+
 
 
 
@@ -61,6 +64,22 @@ def infer_gpt_4o_translate(df = None, model_name = "gpt-4o-audio-preview"):
     df["hypothesis"] = results
     for lang, group in df.groupby("language"):
         group.to_csv(f"results/translation/{model_name}_{lang}.csv", index=False)
+
+def infer_azure_translate(df = None):
+    from models.proprietary_models import translate_audio_azure
+    results = []
+    df['reference'] = df['translation']
+    df['hypothesis'] = ""
+   
+    for index, row in df.iterrows():
+        print(f"Processing {index+1}/{len(df)}: {row['audio_path']}")
+        results.append(translate_audio_azure(row['audio_path'], row['language'], 'english'))
+    df["hypothesis"] = results
+    for lang, group in df.groupby("language"):
+        group.to_csv(f"results/translation/azure_translate_{lang}.csv", index=False)
+
+
+
 def infer_qwen3_translate(df = None, model_name = "qwen3-livetranslate-flash"):
     from models.proprietary_models import qwen3_translate
     results = []
@@ -115,6 +134,8 @@ def main():
         infer_gpt_4o_translate(df, model_name = "gpt-4o-audio-preview")
     elif args.model == "qwen3_translate":
         infer_qwen3_translate(df, model_name = "qwen3-livetranslate-flash")
+    elif args.model == "azure_translate":
+        infer_azure_translate(df)
     else:
         raise ValueError("Model not supported")
 

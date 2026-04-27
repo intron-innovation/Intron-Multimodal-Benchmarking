@@ -9,7 +9,7 @@ if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
     # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
     echo "Available models: medasr, gemma4, omnilingual_ctc, omnilingual_llm, qwen3_omni, qwen3_omni_thinking, google_gemini, open_ai, azure"
     # loop through models and run benchmark for each model
-    for model in qwen3_transcribe ; do
+    for model in google_med_stt ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
             conda activate gemma
@@ -39,13 +39,16 @@ if [ "$task" == "transcription" ] || [ "$task" == "all" ]; then
         elif [ "$model" == "gemini_3_flash" ]; then
             conda activate proprietary_apis
             echo "Running transcription benchmark for model: $model"
-        elif [ "$model" == "gemini_3_flash" ]; then
+        elif [ "$model" == "azure_transcribe" ]; then
             conda activate proprietary_apis
             echo "Running transcription benchmark for model: $model"
         elif [ "$model" == "gpt4o_transcribe" ]; then
             conda activate proprietary_apis
             echo "Running transcription benchmark for model: $model"
         elif [ "$model" == "qwen3_transcribe" ]; then
+            conda activate proprietary_apis
+            echo "Running transcription benchmark for model: $model"
+        elif [ "$model" == "google_med_stt" ]; then
             conda activate proprietary_apis
             echo "Running transcription benchmark for model: $model"
         else
@@ -65,7 +68,7 @@ if [ "$task" == "translation" ] || [ "$task" == "all" ]; then
     # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
     echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure, qwen3_translate "
     # loop through models and run benchmark for each model
-    for model in  qwen3_translate ; do
+    for model in  azure_translate ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
             conda activate gemma
@@ -80,6 +83,9 @@ if [ "$task" == "translation" ] || [ "$task" == "all" ]; then
             conda activate proprietary_apis
             echo "Running translation benchmark for model: $model"
         elif [ "$model" == "qwen3_translate" ]; then
+            conda activate proprietary_apis
+            echo "Running translation benchmark for model: $model"
+        elif [ "$model" == "azure_translate" ]; then
             conda activate proprietary_apis
             echo "Running translation benchmark for model: $model"
         else

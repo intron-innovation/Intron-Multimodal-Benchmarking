@@ -64,4 +64,5 @@ pip install -U google-genai
 pip install pandas
 pip install dotenv
 pip install openai
+pip install azure-cognitiveservices-speech
 
