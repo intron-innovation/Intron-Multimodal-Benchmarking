@@ -20,6 +20,21 @@ def infer_gemma4(df = None):
     for lang, group in df.groupby("language"):
         group.to_csv(f"results/spoken_qa/gemma4_{lang}.csv", index=False)
     
+
+def infer_gpt4o_audio_qa(df = None):
+    # import gemma4 translation function which is in model/gemma4.py
+    from models.proprietary_models import gpt_4o_audio_qa
+    results = []
+    df['reference'] = df['answer']
+    df['hypothesis'] = ""
+    
+    for index, row in df.iterrows():
+        print(f"Processing {index+1}/{len(df)}: {row['audio_path']}")
+        results.append(gpt_4o_audio_qa(row['audio_path'], row['language'], row['question'],  'en'))
+    df["hypothesis"] = [res['content'] for res in results]
+    for lang, group in df.groupby("language"):
+        group.to_csv(f"results/spoken_qa/gpt4o-audio-qa_{lang}.csv", index=False)
+    
         
 
 def main():
@@ -48,6 +63,8 @@ def main():
 
     if args.model == "gemma4":
         infer_gemma4(df)
+    elif args.model == "gpt4o_audio_qa":
+        infer_gpt4o_audio_qa(df)
     else:
         raise ValueError("Model not supported")
 

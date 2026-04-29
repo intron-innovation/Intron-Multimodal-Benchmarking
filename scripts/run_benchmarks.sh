@@ -102,10 +102,9 @@ if [ "$task" == "qa" ] || [ "$task" == "all" ]; then
     echo "Running qa benchmark..."
     # activate conda environment depending on model
     source ~/miniconda3/etc/profile.d/conda.sh
-    # available models: gemma, omnilingual_ctc, Intron Sahara, Google Gemini, Open AI, Azure Speech
-    echo "Available models: gemma, omnilingual_ctc, sahara, google_gemini, open_ai, azure"
+    echo "Available models: gemma"
     # loop through models and run benchmark for each model
-    for model in gemma4 ; do
+    for model in gpt4o_audio_qa ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
             conda activate gemma
@@ -115,8 +114,11 @@ if [ "$task" == "qa" ] || [ "$task" == "all" ]; then
             conda activate omnilingual_ctc  
         else
             conda activate hf
-          
+        elif [ "$model" == "gpt4o_audio_qa" ]; then
+            conda activate proprietary_apis
+            echo "Running qa benchmark for model: $model"
         fi
+
         python scripts/qa_benchmark.py --model "$model"
         
     done

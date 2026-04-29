@@ -332,3 +332,39 @@ def translate_audio_azure(audio_path, source_language, target_language='english'
     except Exception as e:
         print(f"Error processing {audio_path}: {e}")
         return "ERROR"
+def gpt_4o_audio_qa(input_audio, input_language, question, output_language):
+
+    
+    client = OpenAI()
+    with open(input_audio, "rb") as f:
+        audio_bytes = f.read()
+    audio_base64 = base64.b64encode(audio_bytes).decode("utf-8")
+    try:
+        response = client.chat.completions.create(
+    model="gpt-4o-audio-preview",
+    modalities=["text"],
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "input_audio",
+                    "input_audio": {
+                        "data": audio_base64,
+                        "format": "wav"
+                    }
+                },
+                {"type": "text", "text": f"Answer the following question given the audio and the question. The answer should be in {output_language}. The question is in {input_language}. The audio is in {input_language}."},
+                {"type": "text", "text": f"Question: {question}"},
+                {"type": "text", "text": "Follow these specific instructions for formatting the answer:\n* Only output the translation, with no newlines."},
+            ]
+        }
+        ],
+        ) 
+        qa_reponse = response.choices[0].message.content
+        
+        return qa_reponse
+    except Exception as e:
+        print(f"Error processing {input_audio}: {e}")
+        return "ERROR"
+    
