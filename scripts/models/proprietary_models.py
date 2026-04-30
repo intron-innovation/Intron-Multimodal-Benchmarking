@@ -363,8 +363,29 @@ def gpt_4o_audio_qa(input_audio, input_language, question, output_language):
         ) 
         qa_reponse = response.choices[0].message.content
         
-        return qa_reponse
+        return {'content': qa_reponse}
     except Exception as e:
         print(f"Error processing {input_audio}: {e}")
-        return "ERROR"
+        return {'content': "ERROR"}
     
+
+def gemini_qa(input_audio, input_language, question, output_language, model_name="gemini-3-flash-preview"):
+    """
+    Gemini spoken question answering
+    """
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY_2"))
+    audio_file = client.files.upload(file=input_audio)
+    
+    try:
+        response = client.models.generate_content(
+            model=model_name,
+            contents=[
+                audio_file,
+                f"Answer the following question given the audio. The answer should be in {output_language}. The question is in {input_language}. The audio is in {input_language}.\n\nQuestion: {question}\n\nProvide only the answer without any additional text or explanation."
+            ]
+        )
+        answer = response.text
+        return {'content': answer}
+    except Exception as e:
+        print(f"Error processing {input_audio}: {e}")
+        return {'content': "ERROR"}
