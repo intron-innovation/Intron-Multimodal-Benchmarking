@@ -48,6 +48,19 @@ def infer_gemini_qa(df = None):
     for lang, group in df.groupby("language"):
         group.to_csv(f"results/spoken_qa/gemini-3-flash-preview_{lang}.csv", index=False)
                
+def infer_qwen_qa(df = None):
+    from models.proprietary_models import qwen_qa
+    results = []
+    df['reference'] = df['answer']
+    df['hypothesis'] = ""
+    
+    for index, row in df.iterrows():
+        print(f"Processing {index+1}/{len(df)}: {row['audio_path']}")
+        results.append(qwen_qa(row['audio_path'], row['language'], row['question'],  'en'))
+    df["hypothesis"] = [res['content'] for res in results]
+    for lang, group in df.groupby("language"):
+        group.to_csv(f"results/spoken_qa/qwen-plus_{lang}.csv", index=False)
+  
 def main():
     # parse command line arguments
     
@@ -78,6 +91,8 @@ def main():
         infer_gpt4o_audio_qa(df)
     elif args.model == "gemini_3_flash":
         infer_gemini_qa(df)
+    elif args.model == "qwen_qa":
+        infer_qwen_qa(df)
     else:
         raise ValueError("Model not supported")
 

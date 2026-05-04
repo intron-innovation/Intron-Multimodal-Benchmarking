@@ -104,7 +104,7 @@ if [ "$task" == "qa" ] || [ "$task" == "all" ]; then
     source ~/anaconda3/etc/profile.d/conda.sh
     echo "Available models: gemma4, gpt4o_audio_qa, gemini_3_flash, qwen_qa"
     # loop through models and run benchmark for each model
-    for model in gpt4o_audio_qa ; do
+    for model in qwen_qa ; do
     #for model in qwen_qa ; do
         echo "Running benchmark for model: $model"
         if [ "$model" == "gemma4" ]; then
@@ -119,6 +119,10 @@ if [ "$task" == "qa" ] || [ "$task" == "all" ]; then
             echo "Running qa benchmark for model: $model"
         
         elif [ "$model" == "gemini_3_flash" ]; then
+            conda activate proprietary_apis
+            echo "Running qa benchmark for model: $model"
+
+        elif [ "$model" == "qwen_qa" ]; then
             conda activate proprietary_apis
             echo "Running qa benchmark for model: $model"
         

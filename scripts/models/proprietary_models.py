@@ -389,3 +389,44 @@ def gemini_qa(input_audio, input_language, question, output_language, model_name
     except Exception as e:
         print(f"Error processing {input_audio}: {e}")
         return {'content': "ERROR"}
+
+def qwen_qa(input_audio, input_language, question, output_language):
+    """
+    Qwen-Plus spoken question answering
+    """
+    try:
+        client = OpenAI(
+            api_key=os.getenv("DASHSCOPE_API_KEY"),
+            base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+        )
+        with open(input_audio, "rb") as f:
+            audio_bytes = f.read()
+        audio_base64 = base64.b64encode(audio_bytes).decode("utf-8")
+        
+        completion = client.chat.completions.create(
+            model="qwen3.6-plus",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "input_audio",
+                            "input_audio": {
+                                "data": f"data:audio/wav;base64,{audio_base64}",
+                                "format": "wav",
+                            },
+                        },
+                        {
+                            "type": "text",
+                            "text": f"Answer the following question given the audio. The answer should be in {output_language}. The question is in {input_language}. The audio is in {input_language}.\n\nQuestion: {question}\n\nProvide only the answer without any additional text or explanation."
+                        }
+                    ],
+                }
+            ],
+            stream=False,
+        )
+        answer = completion.choices[0].message.content
+        return {'content': answer}
+    except Exception as e:
+        print(f"Error processing {input_audio}: {e}")
+        return {'content': "ERROR"}
