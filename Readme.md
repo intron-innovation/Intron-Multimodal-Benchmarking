@@ -82,7 +82,6 @@ Puberty/Sexual Health, Skin, Ear-Nose-Throat, Abdomen, Postnatal, Genito-urinary
 ### 2.3 Limitations
 
 - **Geographic concentration:** The spoken QA subset is entirely from Nigeria; transcription and translation cover broader geographies but are still weighted toward Anglophone West and East Africa.
-- **Speaker count in QA:** Only 6 unique CHW speakers contribute to the 398 QA recordings, meaning audio variation in QA reflects depth (multiple questions per speaker) rather than breadth.
 - **Professional bias:** All QA speakers are medical practitioners; community health workers without formal medical training are not represented.
 - **Technology comfort bias:** Participants are users of Intron's app and therefore more technology-comfortable than the average CHW population.
 - **Code-switching:** Intra-utterance code-switching is present but inconsistently annotated across languages.
