@@ -233,48 +233,7 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 - Translation annotations double-reviewed for semantic equivalence
 - QA annotations quality-checked for consistency between question and reference answer
 
-### 4.3 LLM-as-Judge
 
-**Model used as primary judge:** Claude Opus 4.7 (claude-opus-4-7)
-
-**Judge vs. generation model:** The judge model differs from the evaluated generation models (Gemini-2.0-Flash, GPT-4o, Qwen-2-Audio-7B, Phi-4, etc.) to avoid self-serving bias.
-
-**Validation methodology:** Four LLM judges (Claude Opus 4.7, GPT 5.5, DeepSeek V4, Qwen 3.6 Plus) each scored a shared set of human CHW answers (n=910–926 overlapping answer_ids per judge). Judge scores were correlated against the CHEWs human expert panel scores using Pearson r, reported per dimension and in aggregate below.
-
-#### Overall Judge–Human Correlation Summary
-
-| Model | N | Pearson r | Mean Bias |
-|-------|---|-----------|-----------|
-| GPT 5.5 | 926 | **0.745** | −0.124 |
-| DeepSeek V4 | 926 | 0.739 | −0.120 |
-| Claude Opus 4.7 | 910 | 0.684 | **−0.051** |
-| Qwen 3.6 Plus | 926 | 0.683 | −0.168 |
-
-*Positive bias = model scores higher than humans. Negative bias = model scores lower than humans.*
-
-#### Per-Dimension Pearson r (Judge vs. Human)
-
-| Dimension | Claude | GPT | DeepSeek | Qwen |
-|-----------|--------|-----|----------|------|
-| Formatting/Grammar | 0.995 | 0.995 | 0.995 | 0.995 |
-| Language Style | 0.989 | 0.989 | 0.989 | 0.989 |
-| Clinical Reasoning | 0.985 | 0.986 | 0.986 | 0.986 |
-| Poor Question Quality | 0.985 | 0.985 | 0.985 | 0.985 |
-| Local Relevance | 0.980 | 0.980 | 0.980 | 0.980 |
-| Expert Recall | 0.976 | 0.976 | 0.976 | 0.976 |
-| Identifies Uncertainty | 0.975 | 0.975 | 0.975 | 0.975 |
-| Factuality | 0.376 | 0.375 | 0.358 | 0.338 |
-| Adequacy | 0.369 | 0.357 | 0.380 | 0.318 |
-| Appropriateness | 0.244 | 0.315 | 0.297 | 0.185 |
-| Empathy | 0.238 | 0.113 | 0.140 | 0.176 |
-| Harm | −0.237 | −0.246 | −0.257 | −0.172 |
-| Hallucination | −0.307 | −0.352 | −0.306 | −0.252 |
-
-*All values p < 0.05. n = 910 (Claude) / 926 (GPT, DeepSeek, Qwen).*
-
-**Interpretation:** Correlations split sharply into two tiers. Structural and technical dimensions (formatting/grammar, language style, clinical reasoning, expert recall, identifies uncertainty, local relevance, poor question quality) show near-perfect agreement across all four judges (r ≥ 0.975), indicating these dimensions are reliably auto-scoreable. Subjective clinical dimensions (factuality, adequacy, appropriateness, empathy) show substantially lower correlations (r = 0.11–0.38), with meaningful variation between judges. Harm and hallucination show negative correlations across all models, reflecting a systematic scale inversion — models rate these dimensions in the opposite direction from human panelists. GPT achieves the highest overall Pearson r (0.745), while Claude shows the smallest mean bias (−0.051), meaning its scores deviate least from human judgements on average. No judge reaches ≥0.80 on the subjective dimensions, confirming that human evaluation remains essential for factuality, empathy, and safety scoring in this CHW context.
-
----
 
 ## 5. Benchmark
 
