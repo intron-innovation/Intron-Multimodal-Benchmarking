@@ -527,11 +527,6 @@ The full dataset will be delivered as a structured ZIP archive including:
 
 **Principal Investigator:** Tobi Olatunji, MD MSc — Founder & CEO, Intron Health
 
-**Task Leads:**
-- Transcription evaluation: Gabby / Abdul (Intron Health)
-- Translation evaluation: Busayo / Abdul (Intron Health)
-- QA evaluation: Aka / Abdul (Intron Health)
-
 **Annotators:** Medically trained native-speaking annotators and CHW panelists across Nigeria, Ghana, Kenya, Uganda, Rwanda, and South Africa (anonymised per participant consent)
 
 **Dataset sources:** Afrispeech, Med-Conv-Nig, AfriVox Translate, Intron Production Monitoring, CHEWs dataset
