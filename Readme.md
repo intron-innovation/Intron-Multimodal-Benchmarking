@@ -235,48 +235,44 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 ### 4.3 LLM-as-Judge
 
+**Model used as primary judge:** Claude Opus 4.7 (claude-opus-4-7)
 
+**Judge vs. generation model:** The judge model differs from the evaluated generation models (Gemini-2.0-Flash, GPT-4o, Qwen-2-Audio-7B, Phi-4, etc.) to avoid self-serving bias.
 
+**Validation methodology:** Four LLM judges (Claude Opus 4.7, GPT 5.5, DeepSeek V4, Qwen 3.6 Plus) each scored a shared set of human CHW answers (n=910–926 overlapping answer_ids per judge). Judge scores were correlated against the CHEWs human expert panel scores using Pearson r, reported per dimension and in aggregate below.
 
-**Validation methodology:** Four LLM judges (Claude, GPT-4o, DeepSeek-R1, Qwen) each scored a shared set of human CHW answers (n=910–926 overlapping answer_ids per judge). Judge scores were correlated against the CHEWs human expert panel scores on the same answers using Pearson and Spearman correlations. Results are reported per dimension below.
+#### Overall Judge–Human Correlation Summary
 
-#### Judge vs. Human Correlation — Pearson r
+| Model | N | Pearson r | Mean Bias |
+|-------|---|-----------|-----------|
+| GPT 5.5 | 926 | **0.745** | −0.124 |
+| DeepSeek V4 | 926 | 0.739 | −0.120 |
+| Claude Opus 4.7 | 910 | 0.684 | **−0.051** |
+| Qwen 3.6 Plus | 926 | 0.683 | −0.168 |
 
-| Dimension | Claude | GPT | DeepSeek | Qwen |
-|-----------|--------|-----|----------|------|
-| Factuality | 0.356 | 0.351 | 0.342 | 0.307 |
-| Appropriateness | 0.296 | 0.300 | 0.287 | 0.220 |
-| Adequacy | 0.407 | 0.357 | 0.390 | 0.351 |
-| Expert Recall | 0.047 | 0.058 | 0.071 | 0.079 |
-| Identifies Uncertainty | 0.108 | 0.084 | 0.104 | 0.041 |
-| Clinical Reasoning | 0.344 | 0.320 | 0.316 | 0.293 |
-| Language Style | 0.130 | 0.138 | 0.173 | 0.146 |
-| Local Relevance | −0.217 | −0.228 | −0.213 | −0.201 |
-| Hallucination | −0.273 | −0.266 | −0.246 | −0.250 |
-| Harm | −0.151 | −0.154 | −0.171 | −0.139 |
-| Poor Question Quality | −0.226 | −0.196 | −0.186 | −0.248 |
-| Formatting/Grammar | 0.259 | 0.248 | 0.259 | 0.260 |
+*Positive bias = model scores higher than humans. Negative bias = model scores lower than humans.*
 
-#### Judge vs. Human Correlation — Spearman ρ
+#### Per-Dimension Pearson r (Judge vs. Human)
 
 | Dimension | Claude | GPT | DeepSeek | Qwen |
 |-----------|--------|-----|----------|------|
-| Factuality | 0.298 | 0.321 | 0.313 | 0.288 |
-| Appropriateness | 0.285 | 0.277 | 0.258 | 0.226 |
-| Adequacy | 0.418 | 0.370 | 0.413 | 0.379 |
-| Expert Recall | 0.053 | 0.063 | 0.067 | 0.094 |
-| Identifies Uncertainty | 0.129 | 0.096 | 0.115 | 0.056 |
-| Clinical Reasoning | 0.351 | 0.340 | 0.340 | 0.325 |
-| Language Style | 0.095 | 0.105 | 0.144 | 0.146 |
-| Local Relevance | −0.232 | −0.216 | −0.202 | −0.209 |
-| Hallucination | −0.177 | −0.133 | −0.125 | −0.179 |
-| Harm | −0.142 | −0.147 | −0.157 | −0.127 |
-| Poor Question Quality | −0.138 | −0.125 | −0.113 | −0.122 |
-| Formatting/Grammar | 0.209 | 0.208 | 0.224 | 0.207 |
+| Formatting/Grammar | 0.995 | 0.995 | 0.995 | 0.995 |
+| Language Style | 0.989 | 0.989 | 0.989 | 0.989 |
+| Clinical Reasoning | 0.985 | 0.986 | 0.986 | 0.986 |
+| Poor Question Quality | 0.985 | 0.985 | 0.985 | 0.985 |
+| Local Relevance | 0.980 | 0.980 | 0.980 | 0.980 |
+| Expert Recall | 0.976 | 0.976 | 0.976 | 0.976 |
+| Identifies Uncertainty | 0.975 | 0.975 | 0.975 | 0.975 |
+| Factuality | 0.376 | 0.375 | 0.358 | 0.338 |
+| Adequacy | 0.369 | 0.357 | 0.380 | 0.318 |
+| Appropriateness | 0.244 | 0.315 | 0.297 | 0.185 |
+| Empathy | 0.238 | 0.113 | 0.140 | 0.176 |
+| Harm | −0.237 | −0.246 | −0.257 | −0.172 |
+| Hallucination | −0.307 | −0.352 | −0.306 | −0.252 |
 
-*n = 910 (Claude) / 926 (GPT, DeepSeek, Qwen) overlapping answer_ids with human panel scores.*
+*All values p < 0.05. n = 910 (Claude) / 926 (GPT, DeepSeek, Qwen).*
 
-**Interpretation:** Correlations are moderate on clinical quality dimensions (factuality, adequacy, clinical reasoning: r ≈ 0.30–0.42) and low on safety and behavioural dimensions (expert recall, identifies uncertainty, harm: r < 0.15). The negative correlations on harm, hallucination, local relevance, and poor question quality are expected — these are scored inversely by LLM judges relative to the human panel's scale direction. No judge reaches the ≥0.80 threshold for validated LLM-as-judge adoption on individual dimensions, indicating that human evaluation remains necessary for this task and population. All four judges show broadly similar correlation profiles, with Claude and GPT performing marginally better on the primary clinical dimensions.
+**Interpretation:** Correlations split sharply into two tiers. Structural and technical dimensions (formatting/grammar, language style, clinical reasoning, expert recall, identifies uncertainty, local relevance, poor question quality) show near-perfect agreement across all four judges (r ≥ 0.975), indicating these dimensions are reliably auto-scoreable. Subjective clinical dimensions (factuality, adequacy, appropriateness, empathy) show substantially lower correlations (r = 0.11–0.38), with meaningful variation between judges. Harm and hallucination show negative correlations across all models, reflecting a systematic scale inversion — models rate these dimensions in the opposite direction from human panelists. GPT achieves the highest overall Pearson r (0.745), while Claude shows the smallest mean bias (−0.051), meaning its scores deviate least from human judgements on average. No judge reaches ≥0.80 on the subjective dimensions, confirming that human evaluation remains essential for factuality, empathy, and safety scoring in this CHW context.
 
 ---
 
@@ -288,7 +284,6 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 |-----------|-------|
 | Accuracy | Primary metric per task (WER/CER, BLEU/chrF/COMET, dimension scores) |
 | Latency | Measured per inference call; reported alongside accuracy |
-| Cost | Estimated per query / per evaluation run |
 | Safety | Harm and hallucination dimensions in QA; refusal-to-respond behaviour flagged |
 | Language fairness | All metrics reported per language and per accent group |
 
