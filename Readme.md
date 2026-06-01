@@ -45,9 +45,9 @@ Data processing follows Intron's ISO 27001-aligned governance pipeline with auto
 |------|-----------|---------------|----------|--------------------|
 | Transcription | 3,200 | ~10 hours | 250 | 40+ English accents + 17 languages |
 | Translation | 1,600 | ~5 hours | 120 | 16 languages |
-| Spoken QA | 398 audio recordings (385 unique questions) | ~15.6 hours | 6 CHW speakers | 4 languages |
+| Spoken QA | 398 audio recordings (385 unique questions) | ~15.6 hours | - | 4 languages |
 
-**Modality:** Multimodal — audio input with text output (transcription, translation, QA). QA also supports image and text inputs.
+**Modality:** Multimodal — audio input with text output (transcription, translation, QA). 
 
 **Languages covered (19):**
 Accented English (West, East, and Southern African variants; 40+ accents), Afrikaans, Akan, Amharic, Arabic, African French, Hausa, Igbo, Kinyarwanda, Luganda, Nigerian Pidgin, Pedi, Sesotho, Shona, Swahili, Tswana, Twi, Xhosa, Zulu.
@@ -68,31 +68,6 @@ Accented English (West, East, and Southern African variants; 40+ accents), Afrik
 **Top clinical categories in spoken QA:**
 Puberty/Sexual Health, Skin, Ear-Nose-Throat, Abdomen, Postnatal, Genito-urinary, Nutrition, STI/HIV, Emergencies (children 2–60 months), and others.
 
-**CHEWs expert panel evaluation (human scores, n=21,221 scored items across all models):**
-
-| Language | Count | % |
-|----------|-------|---|
-| English | 14,470 | 68.2% |
-| Yoruba | 2,712 | 12.8% |
-| Pidgin | 2,068 | 9.7% |
-| Hausa | 1,642 | 7.7% |
-| Igbo | 329 | 1.6% |
-
-| Modality | Count | % |
-|----------|-------|---|
-| Text | 14,714 | 69.3% |
-| Image | 3,406 | 16.1% |
-| Audio | 3,101 | 14.6% |
-
-| Clinical Category | Count |
-|------------------|-------|
-| Body Systems | 5,900 |
-| Nutrition | 4,948 |
-| Reproductive Health | 3,709 |
-| Common Disease Symptoms | 3,148 |
-| Emergencies | 2,383 |
-| Mental Health | 820 |
-| Infectious Disease | 195 |
 
 **Translation metadata (meta_data_translation.csv):** 1,600 instances with fields: id, transcription (source text), translation (reference English), language, speaker_id (hashed), gender, audio duration, source label, and audio paths.
 
@@ -261,9 +236,8 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 ### 4.3 LLM-as-Judge
 
-**Model used as primary judge:** Claude Opus 4.6 (claude-4-opus-20250514)
 
-**Judge vs. generation model:** The judge model (Claude Opus 4.6) differs from the evaluated generation models (Gemini-2.0-Flash, GPT-4o, Qwen-2-Audio-7B, Phi-4, etc.) to avoid self-serving bias.
+
 
 **Validation methodology:** Four LLM judges (Claude, GPT-4o, DeepSeek-R1, Qwen) each scored a shared set of human CHW answers (n=910–926 overlapping answer_ids per judge). Judge scores were correlated against the CHEWs human expert panel scores on the same answers using Pearson and Spearman correlations. Results are reported per dimension below.
 
@@ -410,24 +384,6 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 | Azure Translate | azure-translate |
 | Gemma-4-E4B | gemma4 |
 
-**Spoken QA (Human Expert Panel):**
-
-| Model | Version |
-|-------|---------|
-| Claude 4 Sonnet | claude-4-sonnet-20250514 |
-| GPT-4.1 | gpt-4.1-20250414 |
-| GPT-4o | gpt4o-20241120 |
-| o4-mini | o4-mini-20250416 |
-| DeepSeek-R1 | deepseek-R1-20250528 |
-| Llama-4-Maverick | llama-4-maverick-instruct-20250505 |
-| Llama-3.3-70B | llama-3.3-70b-instruct-20241206 |
-| Gemini-2.0-Flash | gemini-2.0-flash-20250502 |
-| Gemma-3-27B | gemma-3-27b-instruct-20250312 |
-| Phi-4 Multimodal | phi4-multimodal-instruct-20250127 |
-| Qwen-2.5-32B | qwen-2.5-32b-instruct-20240930 |
-| Qwen2.5-VL-7B | qwen2.5-VL-7B-Instruct-20250406 |
-| Qwen2-Audio-7B | qwen2-Audio-7B-Instruct-20250112 |
-| Human CHW | — |
 
 ### 7.2 Headline Results
 
@@ -584,10 +540,8 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 **Spoken QA:**
 - Frontier models (GPT-4.1, Claude 4 Sonnet, DeepSeek-R1) cluster at the top, with factuality ≥4.83 and harm ≤1.05.
-- Llama-4-Maverick matches top-tier models on accuracy dimensions but shows elevated hallucination (1.62), a concern for clinical deployment.
 - Human CHW performance (factuality 4.26, harm 1.23) is exceeded by most frontier models on standard accuracy dimensions.
 - Clinical reasoning and identifies-uncertainty are the most discriminating dimensions — models that score well overall show the sharpest relative drop on these two.
-- Smaller or older models (Qwen2-Audio-7B, Qwen-2.5-32B, Phi-4) underperform substantially across all dimensions.
 - LLM-as-judge correlations with human scores are moderate (r ≈ 0.30–0.42) on clinical quality dimensions and low on safety dimensions, confirming that human evaluation remains essential for this task.
 
 ---
