@@ -12,10 +12,12 @@ from azure.ai.transcription.models import TranscriptionContent, TranscriptionOpt
 from pydub import AudioSegment
 import requests
 # load environment variables from .env file
-from dotenv import load_dotenv
-import os   
+load_dotenv()
+import os
 import base64
+import tempfile
 from openai import OpenAI
+from pydub import AudioSegment
 load_dotenv()
 
 lang_map = {
@@ -121,15 +123,32 @@ def gemini_translate(audio_path, source_language, target_language = "en", model_
         print(f"Error processing {audio_path}: {e}")
         return "ERROR"
 
-    
+from openai import OpenAI
+import pathlib
 
-def gpt4o_transcribe(audio_path):
+def gpt55_transcribe(audio_path):
+    client = OpenAI()
+    try:
+        audio_path = str(pathlib.Path(audio_path).resolve())  # normalize path
+        
+        with open(audio_path, "rb") as f:
+            transcript = client.audio.transcriptions.create(
+                file=(pathlib.Path(audio_path).name, f, "audio/wav"),  # explicit tuple: (filename, file, mime)
+                model="gpt-5.5",
+                response_format="text"
+            )
+        return transcript
+    except Exception as e:
+        print(f"Error processing {audio_path}: {e}")
+        return "ERROR"
+
+def gpt4o_transcribe(audio_path, model_name = "gpt-4o-transcribe"):
     client = OpenAI()
     try:
         with open(audio_path, "rb") as f:
             transcript = client.audio.transcriptions.create(
                 file=f,
-                model="gpt-4o-transcribe",
+                model=model_name,
                 response_format="text"  # or "json"
             )
         return transcript
@@ -171,43 +190,72 @@ def qwen3_translate(audio_path, source_language, target_language = "en"):
         print(f"Error processing {audio_path}: {e}")
         return "ERROR"
 def qwen3_transcribe(audio_path, source_language):
-    client = OpenAI()
-    try:
-        client = OpenAI(
+    client = OpenAI(
         api_key=os.getenv("DASHSCOPE_API_KEY"),
-        base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",  # Singapore
-        )
-        with open(audio_path, "rb") as f:
-            audio_bytes = f.read()
-        audio_base64 = base64.b64encode(audio_bytes).decode("utf-8")
-        completion = client.chat.completions.create(
-            model="qwen3-asr-flash",
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "input_audio",
-                            "input_audio": {
-                                "data": f"data:audio/wav;base64,{audio_base64}"
+        base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+    )
+
+    audio = AudioSegment.from_file(audio_path)
+    chunk_ms = 60 * 1000       # 1 minute in ms
+    overlap_ms = 1 * 1000      # 1 second overlap in ms
+    step_ms = chunk_ms - overlap_ms
+
+    chunks = []
+    start = 0
+    while start < len(audio):
+        end = min(start + chunk_ms, len(audio))
+        chunks.append(audio[start:end])
+        if end == len(audio):
+            break
+        start += step_ms
+
+    transcripts = []
+    for i, chunk in enumerate(chunks):
+        try:
+            with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+                tmp_path = tmp.name
+            chunk.export(tmp_path, format="wav")
+
+            with open(tmp_path, "rb") as f:
+                audio_bytes = f.read()
+            audio_base64 = base64.b64encode(audio_bytes).decode("utf-8")
+
+            completion = client.chat.completions.create(
+                model="qwen3-asr-flash",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "input_audio",
+                                "input_audio": {
+                                    "data": f"data:audio/wav;base64,{audio_base64}"
+                                }
                             }
-                        }
-                    ]
-                }
-            ],
-        )
-        return completion.choices[0].message.content
-    except Exception as e:
-        print(f"Error processing {audio_path}: {e}")
-        return "ERROR"    
-def gpt4o_audio_translate(audio_path, source_language, target_language = "en"):
+                        ]
+                    }
+                ],
+            )
+            transcripts.append(completion.choices[0].message.content)
+            print(f"Chunk {i+1}/{len(chunks)} transcribed.")
+        except Exception as e:
+            print(f"Error on chunk {i+1}: {e}")
+            transcripts.append("")
+        finally:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+
+    return " ".join(transcripts)
+
+
+def gpt4o_audio_translate(audio_path, source_language, target_language = "en", model_name = "gpt-4o-audio-preview"):
     client = OpenAI()
     with open(audio_path, "rb") as f:
         audio_bytes = f.read()
     audio_base64 = base64.b64encode(audio_bytes).decode("utf-8")
     try:
         response = client.chat.completions.create(
-    model="gpt-4o-audio-preview",
+    model=model_name,
     modalities=["text"],
     messages=[
         {
@@ -241,6 +289,7 @@ def gemini_transcribe(audio_path, source_language, model_name = "gemini-3-flash-
 
     
     audio_file = client.files.upload(file=audio_path)
+    print(f"Uploaded {audio_path} to Gemini File Storage ")
     # Generate the transcription
     response = client.models.generate_content(
         model=model_name,
@@ -252,8 +301,9 @@ def gemini_transcribe(audio_path, source_language, model_name = "gemini-3-flash-
 
     
     transcription = response.text
+    print(f"Transcription: {transcription}")
     return transcription
-def transcribe_audio_azure(audio_path, language):
+def transcribe_audio_azure(audio_path, language, code_switching = False):
     # Replace with your own subscription key and region
     endpoint = os.environ.get("AZURE_SPEECH_ENDPOINT")
     api_key = os.environ.get("AZURE_SPEECH_KEY")
@@ -278,11 +328,17 @@ def transcribe_audio_azure(audio_path, language):
             if not locale:
                 print(f"Locale not found for language {language}. Skipping transcription.")
                 return ""
-            options = TranscriptionOptions(
+
+            if code_switching:
+                options = TranscriptionOptions(
+                locales= [locale, "en-US"]
+            )
+            else:
+                options = TranscriptionOptions(
                 locales= [locale]  
             )
 
-            request_content = TranscriptionContent(definition=options, audio=audio_file)
+            request_content = TranscriptionContent( audio=audio_file)
 
             result = client.transcribe(request_content)
 

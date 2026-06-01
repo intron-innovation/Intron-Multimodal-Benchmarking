@@ -8,8 +8,10 @@ def transcribe_medasr(df, language):
 
     pipe = pipeline("automatic-speech-recognition", model=model_id)
     for index, row in df.iterrows():
+        print(f"Transcribing {row['audio_path']} with MedASR")
         audio_path = row["audio_path"]
-        result = pipe(audio_path)["text"]
+        result = pipe(audio_path, chunk_length_s=20, stride_length_s=2)["text"]
+        print(f"Raw result: {result}")
         # remove newlines from result, anything between [], <>, and () and extra spaces
         result = result.replace("\n", " ")
         result = re.sub(r"\[.*?\]", "", result)
