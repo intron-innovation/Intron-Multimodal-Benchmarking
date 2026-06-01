@@ -14,7 +14,7 @@
 Existing AI benchmarks systematically underrepresent accented and multilingual speech from Africa and the broader Global South. This gap means that ASR and LLM models deployed in African healthcare settings have never been rigorously evaluated on the actual speech patterns of the clinicians and community health workers who use them. Intron AfriHealth MultiBench addresses this by providing the first comprehensive, real-world multilingual medical speech benchmark covering three task types: transcription (ASR), translation, and spoken clinical question-answering (QA).
 
 **Target Population:**
-Healthcare workers across Nigeria, Ghana, Kenya, Uganda, Rwanda, and South Africa — including physicians, nurses, and community health workers (CHWs). The QA subset specifically targets Nigerian CHWs and medical staff (licensed professionals, residents, consultants, and interns), with speakers aged 18–55 and representation across major Nigerian language accents (Yoruba, Hausa, Igbo, Ijaw, Igala, Pidgin, and others). The transcription and translation subsets represent approximately 600 speakers from 10+ African countries with ≥40% female representation and an urban–rural split of approximately 60:40.
+Healthcare workers across Nigeria, Ghana, Kenya, Uganda, Rwanda, and South Africa — including physicians, nurses, and community health workers (CHWs). The QA subset specifically targets Nigerian CHWs and medical staff (licensed professionals, residents, consultants, and interns), with speakers aged 18–55 and representation across African local language accents. The transcription and translation subsets represent approximately 600 speakers from 10+ African countries with ≥40% female representation and an urban–rural split of approximately 60:40.
 
 **Deployment Stage:** Research / benchmarking (data drawn from Intron's production transcription app and CHW clinical query platform)
 
@@ -45,9 +45,9 @@ Data processing follows Intron's ISO 27001-aligned governance pipeline with auto
 |------|-----------|---------------|----------|--------------------|
 | Transcription | 3,200 | ~10 hours | 250 | 40+ English accents + 17 languages |
 | Translation | 1,600 | ~5 hours | 120 | 16 languages |
-| Spoken QA | 398 audio recordings (385 unique questions) | ~15.6 hours | - | 4 languages |
+| Spoken QA | 398 audio recordings (385 unique questions) | ~15.6 hours | — | 4 languages |
 
-**Modality:** Multimodal — audio input with text output (transcription, translation, QA). 
+**Modality:** Multimodal — audio input with text output (transcription, translation, QA).
 
 **Languages covered (19):**
 Accented English (West, East, and Southern African variants; 40+ accents), Afrikaans, Akan, Amharic, Arabic, African French, Hausa, Igbo, Kinyarwanda, Luganda, Nigerian Pidgin, Pedi, Sesotho, Shona, Swahili, Tswana, Twi, Xhosa, Zulu.
@@ -68,7 +68,6 @@ Accented English (West, East, and Southern African variants; 40+ accents), Afrik
 **Top clinical categories in spoken QA:**
 Puberty/Sexual Health, Skin, Ear-Nose-Throat, Abdomen, Postnatal, Genito-urinary, Nutrition, STI/HIV, Emergencies (children 2–60 months), and others.
 
-
 **Translation metadata (meta_data_translation.csv):** 1,600 instances with fields: id, transcription (source text), translation (reference English), language, speaker_id (hashed), gender, audio duration, source label, and audio paths.
 
 **Transcription metadata (meta_data_transcription.csv):** 3,200 instances with fields: audio path, duration, reference text, language, source label, and root directory.
@@ -82,6 +81,7 @@ Puberty/Sexual Health, Skin, Ear-Nose-Throat, Abdomen, Postnatal, Genito-urinary
 ### 2.3 Limitations
 
 - **Geographic concentration:** The spoken QA subset is entirely from Nigeria; transcription and translation cover broader geographies but are still weighted toward Anglophone West and East Africa.
+- **Language community bias:** The spoken QA subset covers only Nigerian local languages (Yoruba, Hausa, Igbo, Pidgin, Ijaw, Igala, and others). African languages from East, Central, and Southern Africa — such as Kinyarwanda, Luganda, Swahili, Shona, and Zulu — are not represented in the QA task, limiting generalisability of QA results to non-Nigerian African language communities.
 - **Professional bias:** All QA speakers are medical practitioners; community health workers without formal medical training are not represented.
 - **Technology comfort bias:** Participants are users of Intron's app and therefore more technology-comfortable than the average CHW population.
 - **Code-switching:** Intra-utterance code-switching is present but inconsistently annotated across languages.
@@ -181,7 +181,7 @@ Metrics are filterable by language, accent, and signal-to-noise ratio.
 |--------|-------------|
 | BLEU | N-gram precision-based translation quality (0–100) |
 | chrF | Character n-gram F-score; more robust for morphologically rich languages (0–100) |
-| COMET | Neural translation quality metric using reference translations (typically –1 to 1) |
+| AfriCOMET | A neural translation quality metric fine-tuned from COMET on African language data. Unlike standard COMET, AfriCOMET is trained with direct assessment annotations covering low-resource African languages, making it more sensitive to translation quality in languages such as Hausa, Yoruba, Swahili, and Igbo. Scores typically range from –1 to 1; higher is better. |
 
 **Spoken QA — Scoring Dimensions (1–5 scale):**
 
@@ -208,8 +208,7 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 ### Limitations of the Evaluation
 
 - WER/CER penalise spelling variation in low-resource languages where orthographic standards are less settled
-- BLEU scores underperform on morphologically rich languages; chrF and COMET provide complementary signal
-- LLM-as-judge scoring introduces judge model bias; inter-judge correlation with human scores is moderate on several dimensions (see Section 4)
+- BLEU scores underperform on morphologically rich languages; chrF and AfriCOMET provide complementary signal
 - Human annotation coverage is not uniform across all 19 languages
 - The QA spoken dataset is entirely from Nigeria, limiting geographic generalisability of QA results
 
@@ -219,7 +218,7 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 ### 4.1 Who Labeled
 
-**QA task:** Nigerian Community Health Extension Workers (CHEWs) and medical professionals serving as expert annotators. Annotators are native speakers with clinical training. The spoken_qa_meta_data reflects 6 CHW speakers across multiple accents and Nigerian language communities (Yoruba, Hausa, Igbo, Ijaw, Igala, Pidgin, and others), spanning licensed professionals, residents, consultants, and interns.
+**QA task:** Nigerian Community Health Extension Workers (CHEWs) and medical professionals serving as expert annotators. Annotators are native speakers with clinical training. The spoken_qa_meta_data reflects speakers across multiple African local language accents and communities, spanning licensed professionals, residents, consultants, and interns.
 
 **CHEWs expert panel (scoring):** Medically trained native-speaking panelists scored model-generated and human-generated answers on the 13 dimensions above.
 
@@ -233,7 +232,7 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 - Translation annotations double-reviewed for semantic equivalence
 - QA annotations quality-checked for consistency between question and reference answer
 
-
+---
 
 ## 5. Benchmark
 
@@ -241,7 +240,7 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 | Dimension | Notes |
 |-----------|-------|
-| Accuracy | Primary metric per task (WER/CER, BLEU/chrF/COMET, dimension scores) |
+| Accuracy | Primary metric per task (WER/CER, BLEU/chrF/AfriCOMET, dimension scores) |
 | Latency | Measured per inference call; reported alongside accuracy |
 | Safety | Harm and hallucination dimensions in QA; refusal-to-respond behaviour flagged |
 | Language fairness | All metrics reported per language and per accent group |
@@ -254,13 +253,13 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 **Outputs:**
 - Transcription: WER and CER tables per language per model
-- Translation: BLEU, chrF, and COMET tables per language per model
-- QA: Per-dimension scores per model with aggregate and per-category breakdowns; LLM judge scores alongside human expert panel scores
+- Translation: BLEU, chrF, and AfriCOMET tables per language per model
+- QA: Per-dimension scores per model with aggregate and per-category breakdowns
 
 ### 5.3 Reproducibility
 
 - Automated evaluation scripts packaged and released with the benchmark
-- All evaluation prompts and judge configurations published in full
+- All evaluation prompts published in full
 - Dependencies and environment requirements documented
 - Inference scripts provided for each evaluated model family
 - Scores are reproducible given fixed model versions (version strings and evaluation dates reported)
@@ -337,6 +336,23 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 | Azure Translate | azure-translate |
 | Gemma-4-E4B | gemma4 |
 
+**Spoken QA (Human Expert Panel):**
+
+| Model | Version |
+|-------|---------|
+| Claude 4 Sonnet | claude-4-sonnet-20250514 |
+| GPT-4.1 | gpt-4.1-20250414 |
+| GPT-4o | gpt4o-20241120 |
+| o4-mini | o4-mini-20250416 |
+| DeepSeek-R1 | deepseek-R1-20250528 |
+| Llama-4-Maverick | llama-4-maverick-instruct-20250505 |
+| Llama-3.3-70B | llama-3.3-70b-instruct-20241206 |
+| Gemini-2.0-Flash | gemini-2.0-flash-20250502 |
+| Gemma-3-27B | gemma-3-27b-instruct-20250312 |
+| Phi-4 Multimodal | phi4-multimodal-instruct-20250127 |
+| Qwen-2.5-32B | qwen-2.5-32b-instruct-20240930 |
+| Qwen2-Audio-7B | qwen2-Audio-7B-Instruct-20250112 |
+| Human CHW | — |
 
 ### 7.2 Headline Results
 
@@ -432,7 +448,7 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 | Zulu | 52.50 | 37.08 | 26.44 | 25.07 | — |
 | **Macro Avg** | **45.97** | **42.01** | **29.35** | **25.78** | **58.01*** |
 
-#### Translation — COMET Score (higher is better)
+#### Translation — AfriCOMET Score (higher is better)
 
 | Language | Gemini-Flash | Azure | GPT-4o Audio | Gemma4 | Qwen3 Flash |
 |----------|-------------|-------|-------------|--------|------------|
@@ -456,25 +472,24 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 #### Spoken QA — Human Expert Panel Scores (1–5 scale)
 
-| Model | n | Factuality | Appropriate | Adequacy | Clin. Reasoning | Empathy | Identifies Uncert. | Hallucination↓ | Local Rel.↓ | Harm↓ |
-|-------|---|-----------|------------|---------|----------------|---------|------------------|---------------|------------|-------|
-| GPT-4.1 | 296 | **4.83** | **4.50** | 4.77 | 4.71 | **4.74** | **4.33** | **1.02** | **1.18** | 1.04 |
-| Claude 4 Sonnet | 297 | 4.85 | 4.37 | **4.86** | 4.78 | 4.66 | 4.38 | 1.05 | 1.23 | **1.02** |
-| DeepSeek-R1 | 295 | **4.87** | 4.29 | **4.88** | **4.81** | 4.56 | 4.20 | 1.05 | 1.31 | **1.01** |
-| Llama-4-Maverick | 294 | 4.81 | 4.33 | 4.76 | 4.71 | 4.61 | 4.25 | 1.62 | 1.25 | 1.04 |
-| o4-mini | 299 | 4.67 | 4.05 | 4.69 | 4.58 | 4.31 | 4.25 | 1.05 | 1.50 | 1.15 |
-| Gemini-2.0-Flash | 2,979 | 4.66 | 4.38 | 4.65 | 4.59 | 4.61 | 4.20 | 1.16 | 1.34 | 1.12 |
-| GPT-4o | 3,338 | 4.52 | 4.24 | 4.50 | 4.45 | 4.53 | 4.03 | 1.23 | 1.44 | 1.20 |
-| Qwen2.5-VL-7B | 613 | 4.25 | 4.08 | 4.20 | 4.11 | 4.12 | 3.97 | 1.41 | 1.35 | 1.16 |
-| Gemma-3-27B | 1,698 | 4.27 | 3.95 | 4.28 | 4.26 | 4.37 | 3.67 | 1.41 | 1.61 | 1.18 |
-| Human CHW | 2,931 | 4.26 | 4.07 | 4.22 | 4.14 | 3.92 | 3.72 | 1.29 | 1.49 | 1.23 |
-| Llama-3.3-70B | 1,406 | 4.16 | 3.88 | 4.16 | 4.14 | 4.27 | 3.59 | 2.46 | 1.85 | 1.26 |
-| Phi-4 Multimodal | 3,464 | 3.70 | 3.54 | 3.70 | 3.62 | 3.78 | 3.35 | 1.73 | 1.91 | 1.48 |
-| Qwen-2.5-32B | 1,838 | 3.57 | 3.32 | 3.54 | 3.56 | 3.69 | 3.11 | 3.13 | 2.11 | 1.53 |
-| Qwen2-Audio-7B | 817 | 2.19 | 2.14 | 2.09 | 2.02 | 2.13 | 2.26 | 2.84 | 1.95 | 1.83 |
-| **Distractor** | 656 | 1.88 | 1.95 | 2.13 | 1.89 | 2.21 | 1.84 | 2.37 | 3.45 | 3.49 |
+*Filtered to questions present in the spoken QA metadata (172 unique question_ids). ↓ = lower is better. Distractor = internal validity check (deliberately poor answers).*
 
-*↓ = lower is better. Distractor = internal validity check (deliberately poor answers).*
+| Model | Factuality | Appropriate | Adequacy | Clin. Reasoning | Empathy | Identifies Uncert. | Hallucination↓ | Local Rel.↓ | Harm↓ |
+|-------|-----------|------------|---------|----------------|---------|------------------|---------------|------------|-------|
+| Claude 4 Sonnet | **4.75** | **4.40** | **4.78** | 4.60 | 4.63 | **4.29** | 1.05 | **1.15** | **1.00** |
+| DeepSeek-R1 | **4.77** | 4.26 | 4.73 | **4.75** | 4.47 | 3.98 | **1.03** | 1.23 | **1.01** |
+| GPT-4.1 | 4.69 | **4.40** | 4.63 | 4.56 | **4.63** | 4.16 | **1.02** | 1.13 | 1.02 |
+| Llama-4-Maverick | 4.66 | 4.17 | 4.53 | 4.59 | 4.38 | 4.08 | 1.55 | 1.24 | 1.05 |
+| o4-mini | 4.53 | 3.92 | 4.50 | 4.43 | 4.24 | 4.13 | **1.01** | 1.47 | 1.17 |
+| GPT-4o | 4.60 | 4.28 | 4.58 | 4.54 | 4.62 | 4.09 | 1.16 | 1.45 | 1.17 |
+| Gemini-2.0-Flash | 4.59 | 4.20 | 4.59 | 4.55 | 4.61 | 4.18 | 1.18 | 1.35 | 1.13 |
+| Llama-3.3-70B | 4.46 | 4.06 | 4.45 | 4.44 | 4.43 | 3.83 | 2.38 | 1.60 | 1.14 |
+| Gemma-3-27B | 4.34 | 4.02 | 4.32 | 4.35 | 4.42 | 3.65 | 1.46 | 1.50 | 1.16 |
+| Human CHW | 4.18 | 3.98 | 4.08 | 4.09 | 3.80 | 3.50 | 1.37 | 1.60 | 1.30 |
+| Phi-4 Multimodal | 3.67 | 3.53 | 3.67 | 3.59 | 3.82 | 3.31 | 1.72 | 1.91 | 1.50 |
+| Qwen-2.5-32B | 3.57 | 3.34 | 3.52 | 3.50 | 3.68 | 3.12 | 3.01 | 1.93 | 1.58 |
+| Qwen2-Audio-7B | 2.31 | 2.28 | 2.14 | 2.10 | 2.29 | 2.34 | 2.75 | 2.01 | 1.85 |
+| **Distractor** | 1.89 | 1.93 | 2.17 | 1.85 | 2.20 | 1.95 | 2.23 | 3.25 | 3.12 |
 
 ### 7.3 Interpretation
 
@@ -486,16 +501,17 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 - Swahili and French are consistently easiest; Akan, Pedi, and Tswana remain hardest.
 
 **Translation:**
-- Gemini-3-Flash is the strongest performer overall (BLEU 19.27, chrF 45.97, COMET 0.491), with particular strength in Afrikaans, Arabic, and Swahili.
+- Gemini-3-Flash is the strongest performer overall (BLEU 19.27, chrF 45.97, AfriCOMET 0.491), with particular strength in Afrikaans, Arabic, and Swahili.
 - Azure Translate performs well where available (Afrikaans, Swahili, Zulu) but covers fewer languages.
 - GPT-4o Audio Preview and Gemma4 collapse on low-resource languages (BLEU <2 for Akan, Igbo, Kinyarwanda, Pedi, Sesotho, Tswana, Yoruba).
-- COMET reveals Gemma4 scores near zero or negative for several languages — translations that are semantically poor or misleading, a clinically significant failure mode not visible in BLEU alone.
+- AfriCOMET reveals Gemma4 scores near zero or negative for several languages — translations that are semantically poor or misleading, a clinically significant failure mode not visible in BLEU alone.
 
 **Spoken QA:**
-- Frontier models (GPT-4.1, Claude 4 Sonnet, DeepSeek-R1) cluster at the top, with factuality ≥4.83 and harm ≤1.05.
-- Human CHW performance (factuality 4.26, harm 1.23) is exceeded by most frontier models on standard accuracy dimensions.
+- Frontier models (Claude 4 Sonnet, DeepSeek-R1, GPT-4.1) cluster at the top, with factuality ≥4.69 and harm ≤1.02.
+- Llama-4-Maverick matches top-tier models on accuracy dimensions but shows elevated hallucination (1.55), a concern for clinical deployment.
+- Human CHW performance (factuality 4.18, harm 1.30) is exceeded by all frontier models on standard accuracy dimensions.
 - Clinical reasoning and identifies-uncertainty are the most discriminating dimensions — models that score well overall show the sharpest relative drop on these two.
-- LLM-as-judge correlations with human scores are moderate (r ≈ 0.30–0.42) on clinical quality dimensions and low on safety dimensions, confirming that human evaluation remains essential for this task.
+- Smaller or older models (Qwen2-Audio-7B, Qwen-2.5-32B, Phi-4) underperform substantially across all dimensions.
 
 ---
 
@@ -503,23 +519,17 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 | Task | Release Status | Licence |
 |------|---------------|---------|
-| Translation data | Full open-source release | Open-source (TBD) |
-| Transcription data | Partial open-source release | Open-source (TBD) |
+| Translation data | Full open-source release | Open-source (CC 4.0) |
+| Transcription data | Partial open-source release | Open-source (CC 4.0) |
 | Spoken QA data | Private — not released | N/A |
 
-Subsets approved for public release will be made available on Hugging Face. All evaluation scripts, prompts, judge configurations, and metadata schemas will be released in full to enable independent replication.
+Subsets approved for public release will be made available on Hugging Face. All evaluation scripts, prompts, and metadata schemas will be released in full to enable independent replication.
 
 ---
 
 ## 9. Full Release for TAF / Endless Health
 
-The full dataset will be delivered as a structured ZIP archive including:
-- Audio files (organised by task, language, and source)
-- Reference transcriptions, translations, and QA answers
-- All metadata CSVs
-- Inference scripts for each evaluated model family
-- Automated evaluation scripts (WER/CER, BLEU/chrF/COMET, LLM-judge QA)
-- Reproduction instructions and environment requirements
+The evaluation result will be delivered as a structured ZIP archive
 
 ---
 
