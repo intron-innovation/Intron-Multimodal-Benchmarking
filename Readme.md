@@ -74,7 +74,7 @@ Puberty/Sexual Health, Skin, Ear-Nose-Throat, Abdomen, Postnatal, Genito-urinary
 
 **Demographic distribution axes:** country, language, gender, age group, clinical role, accent, health system tier, urban/rural setting.
 
-**Cleaning decisions:** Automated SNR-based noise scoring and duration filters exclude unintelligible or too-short segments. PII scrubbing precedes all annotation. Human annotators manually review flagged cases. Expected missing data rate: <2%.
+
 
 **Synthetic augmentation:** None; all data are real-world recordings from consenting healthcare workers.
 
@@ -228,7 +228,6 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 
 - Annotators received clinical rubrics defining each scoring dimension
 - Training sessions conducted prior to annotation to calibrate scoring
-- Disagreements resolved via consensus discussion and, where unresolved, majority vote
 - Translation annotations double-reviewed for semantic equivalence
 - QA annotations quality-checked for consistency between question and reference answer
 
@@ -259,10 +258,7 @@ Dimensions were selected to reflect both technical quality (factuality, adequacy
 ### 5.3 Reproducibility
 
 - Automated evaluation scripts packaged and released with the benchmark
-- All evaluation prompts published in full
-- Dependencies and environment requirements documented
-- Inference scripts provided for each evaluated model family
-- Scores are reproducible given fixed model versions (version strings and evaluation dates reported)
+  
 
 ### 5.4 Position in the Evaluation Ecosystem
 
