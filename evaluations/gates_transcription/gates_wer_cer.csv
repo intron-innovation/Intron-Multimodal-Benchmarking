@@ -1,0 +1,7 @@
+file,language,n,wer,cer,blank_hyp
+accented_english,english,50,3.44,1.72,0
+fulfulde,fulfulde,19,51.81,17.33,0
+good_english,english,50,3.3,1.91,0
+hausa,hausa,50,8.29,2.86,0
+pidgin,pidgin,46,12.55,6.98,1
+yoruba,yoruba,50,41.26,23.91,0

@@ -1,0 +1,7 @@
+watcher started Fri Jul  3 16:42:52 UTC 2026
+jobs done Fri Jul  3 17:33:14 UTC 2026; combining...
+text/sahara: 9 models x 6 languages = 2162 rows
+text/omni: 8 models x 6 languages = 2120 rows
+audio/none: 4 models x 6 languages = 837 rows
+master qa_all.csv: 5119 rows
+combine done Fri Jul  3 17:33:16 UTC 2026
