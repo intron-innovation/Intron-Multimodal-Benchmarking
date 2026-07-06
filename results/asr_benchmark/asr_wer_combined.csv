@@ -1,0 +1,15 @@
+language,asr,n,WER_raw,WER_folded,CER_raw,CER_folded,diacritics_in_ref
+good_english,sahara,50,3.51%,—,2.06%,—,2
+good_english,omni,50,4.97%,—,2.58%,—,2
+accented_english,sahara,50,3.87%,—,2.04%,—,2
+accented_english,omni,50,6.06%,—,2.91%,—,2
+pidgin,sahara,46,12.58%,—,6.99%,—,0
+pidgin,omni,46,22.68%,—,11.50%,—,0
+hausa,sahara,50,7.44%,—,2.65%,—,4
+hausa,omni,50,6.51%,—,1.44%,—,4
+yoruba,sahara,50,60.33%,40.08%,33.75%,23.51%,13794
+yoruba,omni,50,57.67%,35.86%,29.95%,19.65%,13794
+fulfulde,sahara,50,58.96%,58.34%,22.33%,22.08%,129
+fulfulde,omni,50,60.08%,59.58%,17.25%,16.92%,129
+ALL,sahara,296,24.50%,—,12.03%,—,
+ALL,omni,296,26.12%,—,11.31%,—,
