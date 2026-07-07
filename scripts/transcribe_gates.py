@@ -43,7 +43,7 @@ LANG_TO_MODEL_STEM = {
     "yoruba": "yoruba",
     "hausa": "hausa",
     "pidgin": "pidgin_english",
-    "fulfulde": "fulani",  # Fulfulde model file is named fulani.nemo
+    "fulfulde": "fulani_fuv_fub_fuq",  # v2.2.1 fulani model (fuv/fub/fuq); prev: fulani.nemo
 }
 
 CHUNK_THRESHOLD_SEC = 45.0  # audio longer than this is transcribed in chunks

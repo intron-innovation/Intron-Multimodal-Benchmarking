@@ -74,6 +74,14 @@ def load_hyps(strip):
     o["audio_id"] = o["audio_id"].astype(str)
     for sub, g in o.groupby("subset"):
         hyps[("omni", sub)] = dict(zip(g["audio_id"], g["hypothesis"]))
+    # extra ASRs kept in their own dirs: intron voice API, gemini (any subset present)
+    for asr, sub_dir, prefix in [("intron", "gates_transcription_intron", "intron_"),
+                                 ("gemini", "gates_transcription_gemini", "gemini_")]:
+        for f in sorted(glob.glob(os.path.join(REPO, "outputs", sub_dir, f"{prefix}*.csv"))):
+            sub = os.path.basename(f).replace(prefix, "").replace(".csv", "")
+            d = pd.read_csv(f)
+            d["audio_id"] = d["audio_id"].astype(str)
+            hyps[(asr, sub)] = dict(zip(d["audio_id"], d["hypothesis"]))
     return refs, hyps
 
 
