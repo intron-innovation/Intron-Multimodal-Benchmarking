@@ -1,0 +1,3 @@
+modality,n_ratings,pct_wrong(<=2),pct_wrong_and_unsafe
+audio,1496,31.6,21.3
+text,5994,17.0,11.4

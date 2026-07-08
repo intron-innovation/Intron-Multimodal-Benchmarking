@@ -23,42 +23,42 @@ import os
 import re
 import unicodedata
 
+import jiwer
 import pandas as pd
-from rapidfuzz.distance import Levenshtein
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SAHARA_DIR = os.path.join(REPO, "outputs", "gates_transcription")
 OMNI_ALL = os.path.join(REPO, "outputs", "gates_transcription_omni", "omni_all.csv")
 
+# jiwer tokenization: collapse ALL whitespace to single spaces (matches str.split), then
+# reduce to words (WER) / characters incl. spaces (CER). Content normalization is done by
+# normalize() beforehand; these transforms only tokenize.
+_WT = jiwer.Compose([jiwer.SubstituteRegexes({r"\s+": " "}), jiwer.Strip(),
+                     jiwer.ReduceToListOfListOfWords()])
+_CT = jiwer.Compose([jiwer.SubstituteRegexes({r"\s+": " "}), jiwer.Strip(),
+                     jiwer.ReduceToListOfListOfChars()])
+# 'literal' mode: NO whitespace normalization at all — split on single space (keeps empty
+# tokens from double spaces; newlines stay attached), chars counted incl. every space/newline.
+_WT_LIT = jiwer.Compose([jiwer.ReduceToListOfListOfWords()])
+_CT_LIT = jiwer.Compose([jiwer.ReduceToListOfListOfChars()])
 
-def normalize(s, strip_diacritics=False):
+
+def normalize(s, mode="keep"):
+    """mode: 'none' = literal (case-sensitive, punctuation kept, whitespace-tokenized);
+    'keep' = lowercase + strip punctuation + collapse whitespace (diacritics kept);
+    'fold' = keep + also strip diacritics/combining marks."""
     s = "" if pd.isna(s) else str(s)
+    if mode in ("literal", "default"):
+        return s                            # fully raw; 'default' lets jiwer's own default transform run
+    if mode == "none":
+        return s.strip()                    # only tokenization (via .split) normalizes whitespace
     s = s.lower().strip()
-    if strip_diacritics:
+    if mode == "fold":
         s = "".join(c for c in unicodedata.normalize("NFD", s)
                     if unicodedata.category(c) != "Mn")
     s = re.sub(r"[^\w\s]", " ", s, flags=re.UNICODE)  # drop punctuation
     s = re.sub(r"\s+", " ", s).strip()
     return s
-
-
-def word_edits(ref, hyp):
-    """Word-level Levenshtein with S/D/I breakdown (rapidfuzz editops)."""
-    r, h = ref.split(), hyp.split()
-    S = D = I = 0
-    for op in Levenshtein.editops(r, h):
-        if op.tag == "replace":
-            S += 1
-        elif op.tag == "delete":
-            D += 1
-        else:  # insert
-            I += 1
-    return S, D, I, len(r)
-
-
-def edit_distance(a, b):
-    """Character-level Levenshtein distance (for CER)."""
-    return Levenshtein.distance(a, b)
 
 
 def load_hyps(strip):
@@ -85,24 +85,31 @@ def load_hyps(strip):
     return refs, hyps
 
 
-def score(refs, hyps, strip):
+def score(refs, hyps, mode):
     rows = []
     for (asr, sub), hyp_map in sorted(hyps.items()):
         ref_map = refs.get(sub, {})
-        ids = [a for a in hyp_map if a in ref_map]
-        S = D = I = Nw = 0
-        cerr = cchars = 0
-        for a in ids:
-            ref = normalize(ref_map[a], strip)
-            hyp = normalize(hyp_map[a], strip)
-            s, dd, ii, n = word_edits(ref, hyp)
-            S += s; D += dd; I += ii; Nw += n
-            cerr += edit_distance(ref, hyp); cchars += len(ref)
-        if Nw == 0:
+        R, H = [], []
+        for a in hyp_map:
+            if a not in ref_map:
+                continue
+            r = normalize(ref_map[a], mode)
+            if not r.strip():                      # jiwer errors on empty references
+                continue
+            R.append(r); H.append(normalize(hyp_map[a], mode))
+        if not R:
             continue
-        rows.append({"language": sub, "asr": asr, "n_utts": len(ids),
-                     "ref_words": Nw, "wer": round((S + D + I) / Nw, 4),
-                     "cer": round(cerr / max(cchars, 1), 4),
+        if mode == "default":                  # plain jiwer.wer/cer — jiwer's own default transforms
+            wo = jiwer.process_words(R, H)
+            co = jiwer.process_characters(R, H)
+        else:
+            wt, ct = (_WT_LIT, _CT_LIT) if mode == "literal" else (_WT, _CT)
+            wo = jiwer.process_words(R, H, reference_transform=wt, hypothesis_transform=wt)
+            co = jiwer.process_characters(R, H, reference_transform=ct, hypothesis_transform=ct)
+        S, D, I = wo.substitutions, wo.deletions, wo.insertions
+        Nw = S + D + wo.hits                        # reference words = hits + subs + dels
+        rows.append({"language": sub, "asr": asr, "n_utts": len(R),
+                     "ref_words": Nw, "wer": round(wo.wer, 4), "cer": round(co.cer, 4),
                      "sub": S, "del": D, "ins": I})
     return pd.DataFrame(rows).sort_values(["language", "asr"]).reset_index(drop=True)
 
@@ -110,12 +117,18 @@ def score(refs, hyps, strip):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--strip-diacritics", action="store_true",
-                    help="fold combining marks before scoring")
+                    help="fold combining marks before scoring (same as --norm fold)")
+    ap.add_argument("--norm", choices=["default", "literal", "none", "keep", "fold"], default=None,
+                    help="default=plain jiwer.wer (jiwer's own default transform, no extra norm); "
+                         "literal=zero normalization incl. whitespace (harshest); "
+                         "none=raw text but whitespace-tokenized; "
+                         "keep=lowercase+strip punct (diacritics kept); fold=strip diacritics too")
     ap.add_argument("--out", default="results/asr_benchmark/asr_wer_by_language.csv")
     args = ap.parse_args()
 
-    refs, hyps = load_hyps(args.strip_diacritics)
-    df = score(refs, hyps, args.strip_diacritics)
+    mode = args.norm or ("fold" if args.strip_diacritics else "keep")
+    refs, hyps = load_hyps(mode)
+    df = score(refs, hyps, mode)
 
     # per-ASR overall (micro-average over all utterances)
     for asr, g in df.groupby("asr"):

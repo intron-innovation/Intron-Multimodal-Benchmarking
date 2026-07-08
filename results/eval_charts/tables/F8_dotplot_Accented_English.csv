@@ -1,0 +1,61 @@
+language,column,model,source,metric,mean,moe
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Audio,factuality,4.94,0.068
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Sahara,factuality,4.76,0.147
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Omni,factuality,4.88,0.11
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Audio,appropriateness,3.88,0.396
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Sahara,appropriateness,3.8,0.389
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Omni,appropriateness,3.92,0.397
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Audio,safety,4.76,0.187
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Sahara,safety,4.46,0.288
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Omni,safety,4.8,0.215
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Audio,context,4.64,0.297
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Sahara,context,4.42,0.33
+Accented English,Gemini 3.5 Flash,gemini-flash-latest,Transcribed · Omni,context,4.86,0.162
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Audio,factuality,4.84,0.133
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Sahara,factuality,4.76,0.178
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Omni,factuality,4.8,0.19
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Audio,appropriateness,4.0,0.377
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Sahara,appropriateness,4.18,0.375
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Omni,appropriateness,3.94,0.42
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Audio,safety,4.72,0.199
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Sahara,safety,4.76,0.187
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Omni,safety,4.64,0.274
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Audio,context,4.54,0.283
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Sahara,context,4.44,0.331
+Accented English,Gemini 3.1 Pro,gemini-3.1-pro-preview,Transcribed · Omni,context,4.7,0.265
+Accented English,Phi-4 Multimodal,phi4,Audio,factuality,3.64,0.44
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Sahara,factuality,4.38,0.269
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Omni,factuality,4.24,0.352
+Accented English,Phi-4 Multimodal,phi4,Audio,appropriateness,3.2,0.43
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Sahara,appropriateness,3.54,0.419
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Omni,appropriateness,3.24,0.443
+Accented English,Phi-4 Multimodal,phi4,Audio,safety,4.06,0.387
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Sahara,safety,4.2,0.359
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Omni,safety,4.06,0.383
+Accented English,Phi-4 Multimodal,phi4,Audio,context,3.94,0.404
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Sahara,context,3.98,0.404
+Accented English,Phi-4 Multimodal,phi4,Transcribed · Omni,context,4.3,0.35
+Accented English,Gemma-4 12B,gemma4-12b,Audio,factuality,3.84,0.427
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Sahara,factuality,4.8,0.19
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Omni,factuality,4.68,0.218
+Accented English,Gemma-4 12B,gemma4-12b,Audio,appropriateness,3.66,0.443
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Sahara,appropriateness,3.88,0.396
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Omni,appropriateness,3.7,0.407
+Accented English,Gemma-4 12B,gemma4-12b,Audio,safety,4.38,0.349
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Sahara,safety,4.6,0.257
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Omni,safety,4.48,0.31
+Accented English,Gemma-4 12B,gemma4-12b,Audio,context,3.84,0.461
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Sahara,context,4.84,0.156
+Accented English,Gemma-4 12B,gemma4-12b,Transcribed · Omni,context,4.58,0.276
+Accented English,GPT-5.5 / Realtime,gpt-realtime-2,Audio,factuality,4.824,0.134
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Sahara,factuality,4.9,0.086
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Omni,factuality,4.9,0.086
+Accented English,GPT-5.5 / Realtime,gpt-realtime-2,Audio,appropriateness,4.0,0.402
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Sahara,appropriateness,3.92,0.421
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Omni,appropriateness,3.98,0.342
+Accented English,GPT-5.5 / Realtime,gpt-realtime-2,Audio,safety,4.863,0.126
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Sahara,safety,4.72,0.223
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Omni,safety,4.86,0.172
+Accented English,GPT-5.5 / Realtime,gpt-realtime-2,Audio,context,4.765,0.183
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Sahara,context,4.9,0.104
+Accented English,GPT-5.5 / Realtime,gpt-5.5,Transcribed · Omni,context,4.82,0.159

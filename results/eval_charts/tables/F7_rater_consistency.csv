@@ -1,0 +1,13 @@
+scope,metric,n_pairs,exact_agree,within1,fleiss_kappa,quad_weighted_kappa
+all pairs,factuality,892,0.657,0.839,0.372,0.63
+all pairs,appropriateness,892,0.475,0.686,0.245,0.42
+all pairs,safety,892,0.659,0.768,0.242,0.383
+all pairs,context,892,0.539,0.76,0.217,0.431
+inter-rater (between raters),factuality,778,0.635,0.829,0.333,0.603
+inter-rater (between raters),appropriateness,778,0.436,0.658,0.192,0.366
+inter-rater (between raters),safety,778,0.65,0.758,0.217,0.344
+inter-rater (between raters),context,778,0.526,0.753,0.193,0.412
+"intra-rater (same rater, test-retest)",factuality,114,0.807,0.904,0.64,0.78
+"intra-rater (same rater, test-retest)",appropriateness,114,0.746,0.877,0.617,0.75
+"intra-rater (same rater, test-retest)",safety,114,0.719,0.833,0.404,0.608
+"intra-rater (same rater, test-retest)",context,114,0.632,0.807,0.374,0.563
