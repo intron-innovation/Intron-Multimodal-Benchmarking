@@ -7,5 +7,12 @@ data/audio/chews/*/*.wav
 notebooks/*.ipynb
 notebooks/*.txt
 notebooks/*.csv
+notebooks/temp_chunks/*.wav
 temp_chunks/*.wav
 scripts/models/__pycache__/*
+notebooks/audio/*.wav
+# Spoken QA rubric inputs/outputs contain clinical content from identified
+# health workers — only the 5-record samples are committed
+data/Spoken QA/expert_panel_ratings.csv
+results/spoken_qa_rubric/*.csv
+!results/spoken_qa_rubric/samples/*.csv

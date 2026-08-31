@@ -79,11 +79,20 @@ This directory has its own detailed `README.md` explaining:
 
 ---
 
+### `docs/`
+
+* [`spoken_qa_pipeline.md`](docs/spoken_qa_pipeline.md) → the full Spoken QA
+  pipeline: answering, COMET, the 13-dimension clinical rubric, the human
+  expert panel, the LLM judge, and how they are validated against each other
+
+---
+
 ### `evaluations/`
 
 Contains evaluation outputs and metrics:
 
-* `spoken_qa/` → QA evaluation results (e.g., COMET)
+* `spoken_qa/` → QA evaluation results: COMET, the 13 rubric dimension tables,
+  panel inter-rater reliability, and judge-vs-panel agreement
 * `transcriptions/` → ASR evaluation results
 * `translations/` → Translation metrics:
 
@@ -125,7 +134,10 @@ These files represent **raw model predictions** before evaluation.
 
 Core benchmarking and evaluation logic:
 
-* `qa_benchmark.py` → Spoken QA evaluation pipeline
+* `qa_benchmark.py` → Spoken QA inference pipeline
+* `qa_rubric.py` → the 13-dimension Spoken QA clinical rubric
+* `qa_rubric_judge.py` → LLM-as-judge scoring against that rubric
+* `qa_rubric_evals.py` → dimension tables + judge-vs-human agreement
 * `transcription_benchmark.py` → ASR benchmarking
 * `translation_benchmark.py` → Translation benchmarking
 * `evaluations.py` → Metric computation
@@ -201,7 +213,20 @@ Intermediate outputs and logs generated during experiments.
 * Output: Answer
 * Metrics:
 
-  * COMET (semantic quality)
+  * COMET — semantic similarity to the reference answer
+  * **13-dimension clinical rubric** — factuality, appropriatness, adequacy,
+    expert recall, uncertainty handling, empathy, clinical reasoning, language
+    style, formatting, plus the negative dimensions hallucination, local
+    relevance, harm and question quality
+
+COMET alone cannot separate a safe answer from a dangerous one, so the
+dimension scores are what the benchmark reports for Spoken QA. They come from
+a physician expert panel, with an LLM judge (`scripts/qa_rubric_judge.py`)
+replicating the same rubric at scale and validated against the panel.
+
+Spoken QA runs in two halves - **answering** (`qa_benchmark.py` -> `results/`)
+and **scoring** (COMET, plus the human panel and LLM judge). Both are
+documented end to end in **[`docs/spoken_qa_pipeline.md`](docs/spoken_qa_pipeline.md)**.
 
 ---
 
@@ -314,7 +339,8 @@ Please refer to these for deeper details.
 
 * Add more **Models**
 * Integrate **Metrics like time of each model**
-* Include **human evaluation benchmarks for spoken qa**
+* Extend the LLM-judge validation to the audio (Spoken QA) slice — the current
+  judge-vs-panel agreement was measured on text and image answers only
 
 ---
 

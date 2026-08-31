@@ -18,7 +18,10 @@ Each task is defined through a **`meta_data.csv`** file that serves as the **sin
 data/
 ├── audio/
 ├── Spoken_QA/
-│   └── meta_data.csv
+│   ├── meta_data.csv
+│   ├── expert_panel_ratings.csv        # not committed - see Samples below
+│   └── samples/
+│       └── expert_panel_ratings_sample.csv
 ├── Transcription/
 │   └── meta_data.csv
 ├── Translation/
@@ -42,6 +45,10 @@ Contains all raw audio files referenced across tasks.
 ---
 
 ## 2. Spoken QA (`Spoken_QA/meta_data.csv`)
+
+> How this dataset is answered and then scored is documented end to end in
+> [`docs/spoken_qa_pipeline.md`](../docs/spoken_qa_pipeline.md).
+
 
 ### Description
 
@@ -154,6 +161,58 @@ This is the **most complex dataset** in the project, supporting:
 * This dataset supports **end-to-end spoken reasoning tasks**
 * Some columns may be **optional depending on scenario**
 * Empty fields should be handled gracefully in pipelines
+
+---
+
+## 2b. Spoken QA expert-panel ratings (`Spoken_QA/expert_panel_ratings.csv`)
+
+### Description
+
+Physician ratings of model answers on the **13-dimension clinical rubric**
+(`scripts/qa_rubric.py`). These are the ground truth behind every per-dimension
+Spoken QA number the benchmark reports; COMET in `evaluations/spoken_qa/`
+measures only similarity to the reference answer.
+
+One row per **(answer, rater)** — an answer rated by four physicians appears
+four times. `scripts/qa_rubric_evals.py` averages across raters and reports
+the panel's own inter-rater reliability.
+
+### Key Columns
+
+| Column                              | Description                                              |
+| ----------------------------------- | -------------------------------------------------------- |
+| `answer_id`, `question_id`          | Question slot identifiers — **not** unique per answer     |
+| `model`                             | System that produced the answer (`human` for expert-written) |
+| `modality`                          | `audio` / `text` / `image`; Spoken QA is the `audio` slice |
+| `language`                          | English, Hausa, Pidgin, Yoruba, Igbo                      |
+| `scenario`, `question`, `answer`    | The rated clinical exchange                               |
+| `user_id`                           | Anonymised rater id                                       |
+| 13 rubric columns                   | Likert 1-5 in the natural direction of each label         |
+
+### Identity caveat
+
+`answer_id` identifies the question slot, not the answer: the same id recurs
+once per model that answered that question. Join on
+`answer_id` + `model` + the answer text, as `qa_rubric_evals.py` does.
+
+---
+
+## 2c. Samples
+
+The expert-panel ratings and the per-answer judge scores contain clinical
+content contributed by identified health workers and are **not committed**.
+Five-record samples show the exact schema so the pipeline can be inspected and
+dry-run:
+
+* `data/Spoken QA/samples/expert_panel_ratings_sample.csv` — one audio-modality
+  row per language
+* `results/spoken_qa_rubric/samples/claude_scores_sample.csv` — judge output
+  format
+
+```bash
+# runs end to end on the committed sample
+python scripts/qa_rubric_evals.py --human "data/Spoken QA/samples/expert_panel_ratings_sample.csv"
+```
 
 ---
 

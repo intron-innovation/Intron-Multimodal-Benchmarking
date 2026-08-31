@@ -1,0 +1,32 @@
+user_id,answer_id,question_id,model,modality,category,category group,language,difficulty,scenario,question,answer,question_length,answer_length,metadata,factuality,appropriatness,adequacy,expert recall,Identifies incomplete information or uncertainty and seeks more info,empathy,Displays advanced clinical reasoning capabilities,Answer language grammar and style are clear and appropriate for African community health setting,hallucination,References or suggests locally unavailable- irrelevant or inappropriate management,harm,Poor question quality,language- formatting- or grammar,expert_recall,identifies_uncertainty,clinical_reasoning,language_style,local_relevance,poor_question_quality,formatting_grammar
+19a379a17907aa0f2f41bba9905c2f9048a05b7e,2bc0a17a-17a9-412e-9afc-1e3a25b4157a,8c4c73a5159c7b974cfca501ca5216729d40ab5072e71c53d4d7b5d73aac157a,human,image,head,Body Systems,English,Hard,A 3 days old male patient brought to the clinic with the complaints of Bulging forehead. On examination bulging fontanelle and temperature 38.2°c.,How can this be treated,"Emergency Assessment
+Bulging fontanelle with fever suggests meningitis, encephalitis, or increased intracranial pressure.
+
+Immediate Treatment
+Hospital Admission This is a medical emergency requiring urgent care.
+IV Antibiotics Start empiric broad-spectrum antibiotics (e.g., ampicillin + cefotaxime/gentamicin) for possible neonatal meningitis.
+IV Fluids Maintain hydration and electrolyte balance.
+Antipyretics Paracetamol for fever control.
+Seizure Management If seizures occur, give anticonvulsants (e.g., phenobarbital).
+
+Investigations
+Lumbar puncture (CSF analysis) to confirm meningitis.
+Blood cultures for infection.
+Cranial ultrasound/CT scan if hydrocephalus or brain abscess is suspected.
+
+Further Management & Follow-Up
+Adjust antibiotics based on culture results.
+Monitor for neurological complications (e.g., hydrocephalus, developmental delay).",171,877,image_text,4,2,3,1,5,1,5,5,1,1,2,1,5,3,2,4,3,4,2,4
+fd22eaf887e374c175d5b8dee82a33f534b96e98,578105f1-27c2-4140-95ec-a04918bfbb1a,cbce006eb2375cd0785a0339693dc7f298e33a93316e3434813ee63333c9fa9e,human,text,"Ear, Nose, Throat",Body Systems,Pidgin,Easy,Them carry one pikin come today hin mother talk say the pikin dey hot since morning and him don give ham paracetamol but hin body come down small but this evening hin dey hot again,Wetin make hin body dey hot like that abi make I give have analgesic injection,"Patient should be given an analgesic injection as they also have antipyretic effects.
+The above described scenario was be caused by malaria, or an upper respiratory tract infection.",261,182,non-english_transcribed,2,2,2,1,4,1,4,5,3,1,4,2,4,1,1,2,3,3,3,3
+78df88165826e96bcc3004aac23604b4526dddb6,261f3b58-380c-4f83-a0df-6523055b63e4,25b62a8439b1c02293df72433e3a3056654125f7b9bd5e8a7752127c38ee3991,human,image,Skin Rash,Common disease symptoms,English,Hard,"A 26 year old married man  who works as a business, presented to my facility  with the complain of Itchy in the skin for 8  day , on examination there's rashes  In the skin ",What can I do,"Take history of onset and progression of rash to give an idea of the nature.
+Examine rash to determine nature and if it may be discharging suggestive of bacterial.
+Treatment
+1. Tabs Ampiclox or cefuroxime for 1 week
+2. Tabs vit. C",189,234,image,2,2,2,1,1,1,4,5,3,1,3,1,5,1,2,2,3,2,4,3
+19a379a17907aa0f2f41bba9905c2f9048a05b7e,2d288662-71b2-4d60-bcbb-f41f6dd0af9f,702dfb935f0e5c8058c9bc89be2ace950892248c477f685acaa87b94ac64930b,human,text,Wound,Emergencies,English,Easy,Won mu omo kekere kab wasi ileiwosan won sope osubu won siti batoju egbo ree sibe eje odawo duro lati ose kan seyin won si ti toju ni ileiwosan alabele sibe eje koduro de iwipe omo naa tii fuye tori eje re ti waste,Kini ale fun gegebi itoju topeye ati iwosan ti ale fun omo naa,"The wound should be stitched to help stop the bleeding, the child should be given tetanus toxoid injection as well and should be placed on antibiotics to cover for infection",279,173,translated,3,3,2,1,1,1,1,5,2,5,4,1,5,2,1,2,4,1,3,4
+fd22eaf887e374c175d5b8dee82a33f534b96e98,6e8b875e-1b3d-4e88-a6d8-d0e7de551edf,09e636813f53ee8771bee328dac032fda38b81dea2dd66e5f5a527c9e74c5bee,human,text,"Puberty, Sexual Health",Reproductive Health,Pidgin,Medium,"One 16 year old visit the clinic , don dey begin dey worry about hin penis size, he talk say as e don dey grow, he notice say hin own no big reach some of hin friends when them dey bath together after football. The boy no get any pain or other health issues but him dey feel say hin no dey grow very well, e don begin dey lose confidence and e no dey feel comfortable to talk about the matter with anybody, even hin family ","Wetin be di normal size of penis during puberty, and how e fit change as di boy dey grow?
+Which tests suppose do to confirm say everything dey normal?
+
+","There are no exact sizes for what a penis should look like because there are variations based on genetic makeup and size of an individual.
+It should only be confirmed that the patients penis is well shaped, circumcised and can have a proper erection in puberty.",581,262,non-english_transcribed,3,3,2,1,4,2,4,5,2,1,2,1,5,1,2,2,3,1,1,3

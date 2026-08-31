@@ -566,6 +566,21 @@ def translation_evals():
     df_comet.to_csv("evaluations/translations/translation_comet.csv", index=False)
 
 def spoken_qa_evals():
+    """
+    COMET between each predicted answer and the reference answer, per language
+    and model.
+
+    This is the *semantic-similarity* half of Spoken QA evaluation only: it
+    says how close an answer is to the reference, not whether it is factual,
+    safe, locally actionable, or complete. The 13 clinical dimensions the
+    benchmark reports come from the rubric pipeline instead:
+
+        scripts/qa_rubric.py        the 13-dimension rubric definition
+        scripts/qa_rubric_judge.py  LLM-as-judge scoring against that rubric
+        scripts/qa_rubric_evals.py  dimension tables + judge-vs-human agreement
+
+    Both write into evaluations/spoken_qa/.
+    """
     bench_results = os.listdir("results/spoken_qa")
     
     # 1. Map files to a structured dictionary: {language: {model: filename}}

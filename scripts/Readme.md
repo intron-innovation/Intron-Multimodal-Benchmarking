@@ -27,6 +27,9 @@ scripts/
 ├── transcription_benchmark.py
 ├── translation_benchmark.py
 ├── evaluations.py
+├── qa_rubric.py            # 13-dimension Spoken QA clinical rubric
+├── qa_rubric_judge.py      # LLM-as-judge scoring against that rubric
+├── qa_rubric_evals.py      # dimension tables + judge-vs-human agreement
 ├── report_gen.py
 ├── run_benchmarks.sh
 ├── run_evaluations.sh
@@ -45,22 +48,40 @@ These scripts generate **model predictions** and save them to `results/`.
 
 #### Purpose
 
-Runs **Spoken Question Answering (QA)** benchmarks.
+The **answering** half of Spoken QA: plays each spoken question to a model and
+records its answer. Scoring happens elsewhere (see 2.1-2.3 and
+[`docs/spoken_qa_pipeline.md`](../docs/spoken_qa_pipeline.md)).
 
 #### Input
 
-* `data/Spoken_QA/meta_data.csv`
+* `data/Spoken QA/meta_data.csv` (398 questions, 4 languages)
 
 #### Output
 
 * `results/spoken_qa/<model>_<language>.csv`
 
-#### Responsibilities
+#### Models
 
-* Load QA dataset
-* Run model inference
-* Generate answers
-* Save predictions
+Declared in the `QA_MODELS` registry - every wrapper shares the signature
+`answer(input_audio, input_language, question, output_language) -> {"content": str}`:
+
+| `--model`        | Provider model           | Output prefix            |
+| ---------------- | ------------------------ | ------------------------ |
+| `gemma4`         | Gemma 3n (local)         | `gemma4`                 |
+| `gpt4o_audio_qa` | `gpt-4o-audio-preview`   | `gpt4o-audio-qa`         |
+| `gemini_3_flash` | `gemini-3-flash-preview` | `gemini-3-flash-preview` |
+| `qwen_qa`        | `qwen3.6-plus`           | `qwen-plus`              |
+
+To add a model: write the wrapper in `models/`, add one `QA_MODELS` entry, add
+its conda env to the QA block of `run_benchmarks.sh`.
+
+#### Useful flags
+
+* `--resume` - reuse answers already on disk; re-ask only missing or `"ERROR"`
+  ones (a rate-limited run rarely finishes in one attempt)
+* `--model-name` / `--output-prefix` - run a different provider revision into
+  its own result files
+* `--limit N` - smoke test
 
 ---
 
@@ -144,7 +165,94 @@ Computes evaluation metrics for all tasks.
 
 #### Spoken QA
 
-* Semantic similarity (COMET-style)
+* Semantic similarity (COMET)
+
+`evaluations.py` covers the automatic metrics only. The 13 clinical
+dimensions Spoken QA is reported on come from the rubric scripts below.
+
+---
+
+### 2.1 `qa_rubric.py`
+
+#### Purpose
+
+Defines the **Spoken QA evaluation rubric**: the 13 dimensions, their anchors
+and worked examples, the scoring prompt, and the few-shot example pool. This
+is the same rubric the physician expert panel rates against.
+
+Not run directly — imported by the two scripts below.
+
+#### Dimensions
+
+* 9 positive: `factuality`, `appropriatness`, `adequacy`, `expert_recall`,
+  `identifies_uncertainty`, `empathy`, `clinical_reasoning`, `language_style`,
+  `formatting_grammar`
+* 4 negative: `hallucination`, `local_relevance`, `harm`,
+  `poor_question_quality`
+
+Scores stay in the **natural direction** of each rubric label (5 = most
+harmful on `harm`), matching the expert-panel export, so judge and human
+columns are directly comparable.
+
+---
+
+### 2.2 `qa_rubric_judge.py`
+
+#### Purpose
+
+Scores Spoken QA answers with an **LLM judge** on all 13 dimensions — the
+scalable stand-in for a fresh expert-panel round.
+
+#### Input
+
+* Any CSV with `scenario`, `question`, `answer`
+* Spoken QA = the `modality == "audio"` slice (`--modality audio`, the default)
+* For benchmark predictions, point at the prediction column:
+  `--answer-col hypothesis`
+
+#### Output
+
+* `results/spoken_qa_rubric/<judge>_scores.csv` — input columns preserved,
+  13 score columns appended
+
+#### Judges
+
+| `--judge`  | Model                    | API key env         |
+| ---------- | ------------------------ | ------------------- |
+| `claude`   | claude-opus-4-7          | `ANTHROPIC_API_KEY` |
+| `gpt`      | gpt-5.5                  | `OPENAI_API_KEY`    |
+| `qwen`     | qwen3.6-plus (DashScope) | `DASHSCOPE_API_KEY` |
+| `deepseek` | deepseek-reasoner        | `DEEPSEEK_API_KEY`  |
+
+---
+
+### 2.3 `qa_rubric_evals.py`
+
+#### Purpose
+
+Turns per-answer rubric scores into reportable tables.
+
+#### Input
+
+* `--human` expert-panel ratings (one row per answer per rater)
+* `--judge-scores` optional judge scores for the same answers
+
+#### Output (into `evaluations/spoken_qa/`)
+
+* `spoken_qa_<dimension>.csv` — mean score per language x model, per dimension
+* `spoken_qa_rubric_overall.csv` — mean across all 13 dimensions
+* `rater_agreement.csv` — panel inter-rater reliability (Krippendorff's alpha)
+* `judge_agreement_<judge>.csv`, `judge_overall_<judge>.csv`,
+  `summary_<judge>.txt` — judge vs panel, per dimension and overall
+
+#### Two things it handles that a naive join gets wrong
+
+* **Answer identity.** `answer_id` names the question slot, not the answer —
+  the same id recurs once per model that answered it. Answers are matched on
+  `answer_id` + `model` + a hash of the answer text.
+* **Score direction.** A judge CSV written on the "5 = best on every column"
+  scale must be loaded with `--judge-scale best5`; comparing it to the panel
+  unconverted flips the sign of the `harm` and `hallucination` correlations.
 
 ---
 
@@ -220,7 +328,11 @@ Runs evaluation pipeline.
 
 ```bash id="p8m2qs"
 python scripts/evaluations.py
+python scripts/qa_rubric_evals.py --human "data/Spoken QA/expert_panel_ratings.csv" --modality audio
 ```
+
+The rubric step is skipped with a message when the expert-panel ratings are
+not present locally.
 
 ---
 

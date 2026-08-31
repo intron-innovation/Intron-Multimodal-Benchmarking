@@ -27,6 +27,10 @@ results/
 │   ├── gemma4_Hausa.csv
 │   ├── gemma4_Pidgin.csv
 │   └── gemma4_Yoruba.csv
+├── spoken_qa_rubric/            # per-answer 13-dimension judge scores
+│   ├── <judge>_scores.csv       # not committed - see samples/
+│   └── samples/
+│       └── claude_scores_sample.csv
 ├── transcription/
 ├── translation/
 │   ├── gemma4_afrikaans.csv
@@ -46,6 +50,39 @@ results/
 │   ├── gemma4_yoruba.csv
 │   └── gemma4_zulu.csv
 ```
+
+---
+
+## Spoken QA answers (`spoken_qa/`)
+
+Produced by `scripts/qa_benchmark.py` - one file per model per language, with
+the model's answer in `hypothesis` and the reference answer in `reference`.
+
+A failed provider call is recorded as `"ERROR"` in `hypothesis` rather than
+dropped, so coverage stays visible. As of the last run, `qwen-plus` has 63
+such failures out of 398; `python scripts/qa_benchmark.py --model qwen_qa
+--resume` re-asks only those. Scoring treats `"ERROR"` as the model's answer,
+so clear them before quoting that model's metrics.
+
+---
+
+## Spoken QA rubric scores (`spoken_qa_rubric/`)
+
+Per-answer scores on the 13-dimension clinical rubric, produced by
+`scripts/qa_rubric_judge.py`:
+
+```bash
+python scripts/qa_rubric_judge.py --csv "data/Spoken QA/expert_panel_ratings.csv" \
+    --judge claude --modality audio
+```
+
+Each file preserves every input column verbatim and appends the 13 score
+columns, stored in the natural direction of each rubric label (5 = most
+harmful on `harm`) so they line up with the expert-panel ratings.
+`scripts/qa_rubric_evals.py` aggregates them into `evaluations/spoken_qa/`.
+
+These files are **not committed** — they carry the full clinical exchange.
+`samples/claude_scores_sample.csv` holds five records showing the format.
 
 ---
 

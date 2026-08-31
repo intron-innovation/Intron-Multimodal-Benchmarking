@@ -1,0 +1,9 @@
+# Spoken QA rubric evaluation (scripts/qa_rubric*.py)
+pandas
+numpy
+scipy
+python-dotenv
+
+# LLM judges — install only the provider(s) you intend to use
+anthropic        # --judge claude
+openai           # --judge gpt / qwen / deepseek (OpenAI-compatible endpoints)
