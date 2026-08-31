@@ -40,7 +40,6 @@ This project aims to:
 ├── data/
 ├── docs/
 ├── evaluations/
-├── notebooks/
 ├── outputs/
 ├── pairwise_agreement_analysis/
 ├── requirements/
